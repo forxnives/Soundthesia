@@ -1,0 +1,218 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+
+}
+
+body {
+    height: 100%;
+}
+
+
+
+.app-container {
+    display: grid;
+    grid-template-rows: 8vh 50vh 32vh;
+    row-gap: 4vh;
+    justify-items: center;
+
+}
+
+header {
+    // height: 20vh;
+    width: 95%;
+    border: 2px solid black;
+    
+}
+
+.decks-container {
+    
+    // height: 40vh;
+    width: 95%;
+    border: 2px solid black;
+    display: grid;
+    grid-template-columns: 38% 24% 38%;
+
+    .deck1 {
+
+        border: 2px solid black;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        &-transport {
+            .button{
+                background-color: grey;
+                padding: 30px;
+            }
+        }
+
+
+        &-eq {
+            height: 100%;
+            border: 2px solid hotpink;
+            width: 12vh;
+
+            &-high {
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+            &-mid{
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+            &-low {
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+            &-filter {
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+        }
+
+
+    }
+
+    .mixer {
+
+        display: grid;
+        grid-template-columns: 1fr 1.5fr 1fr;
+        grid-template-rows: 4fr 1fr;
+
+
+
+        &-deck1-vol {
+            border: 2px solid yellow;
+
+            input[type=range]{
+                writing-mode: bt-lr; /* IE */
+                -webkit-appearance: slider-vertical; /* WebKit */
+                width: 50px;
+                height: 80%;
+                padding: 0 24px;
+                outline: none;
+                background:transparent;
+            }
+
+
+        }
+
+        &-meters {
+            border: 2px solid purple;
+        }
+
+        &-deck2-vol {
+            border: 2px solid fuchsia;
+
+            input[type=range]{
+                writing-mode: bt-lr; /* IE */
+                -webkit-appearance: slider-vertical; /* WebKit */
+                width: 50px;
+                height: 80%;
+                padding: 0 24px;
+                outline: none;
+                background:transparent;
+            }
+        }
+
+        &-crossfader {
+            border: 2px solid green;
+            grid-column-start: 1;
+            grid-column-end: 4;
+
+            input[type=range]{
+                // writing-mode: bt-lr; /* IE */
+                // -webkit-appearance: slider-vertical; /* WebKit */
+                width: 80%;
+                margin: 20px 30px;
+                // height: 80%;
+                padding: 0 24px;
+                outline: none;
+                background:transparent;
+            }
+        }
+
+
+    }
+
+    .deck2{
+
+        border: 2px solid black;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+
+
+        &-eq {
+            height: 100%;
+            border: 2px solid hotpink;
+            width: 12vh;
+
+            &-high {
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+            &-mid{
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+            &-low {
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+            &-filter {
+                border: 2px solid green;
+                width: 100%;
+                height: 25%;
+            }
+
+
+        }
+
+
+    }
+
+
+
+
+}
+
+.playlist-container {
+    // height: 30vh;
+    width: 95%;
+    border: 2px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .my-fl-knob {
+//     width: 300px;
+//     height: 300px;
+
+// }
