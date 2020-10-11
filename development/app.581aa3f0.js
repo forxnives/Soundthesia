@@ -1576,18 +1576,60 @@ require("../../node_modules/precision-inputs/css/precision-inputs.fl-controls.cs
 
 var _precisionInputs = require("precision-inputs/common/precision-inputs.fl-controls");
 
-function KnobCreate(knobContainerClass, eqNode) {
-  // this.knobContainer = document.querySelector(`${knobContainerClass}`);
-  this.knobContainer = document.querySelector(knobContainerClass); // setTimeout(function() {console.log(this.knobContainer)}, 3000);
-
-  this.knob = new _precisionInputs.FLStandardKnob(this.knobContainer); // console.log(callback)
-  // retrieve value
-  // const currentValue = myKnob.value;
-  // // set value
-  // this.knob.value = 0.5;
-  // watch for changes
-
+function KnobCreate(knobContainerClass, eqNode, eqNode2) {
+  this.knobContainer = document.querySelector(knobContainerClass);
+  this.knob = new _precisionInputs.FLStandardKnob(this.knobContainer);
+  eqNode.Q.value = 5;
   this.knob.addEventListener('change', function (evt) {
+    if (eqNode2) {
+      // eqNode.Q.value = 5;
+      // eqNode2.Q.value = 5;
+      // switch(evt.target.value){
+      //     case(evt.target.value > -20):
+      //         console.log('thing');
+      //     default:
+      //         console.log(evt.target.value)
+      // }
+      if (evt.target.value <= -30) {
+        console.log('less than -30');
+        console.log(840 + evt.target.value * 20);
+        eqNode.frequency.value = 840 + evt.target.value * 20;
+      } else if (evt.target.value <= -20) {
+        console.log('-30 to -20'); // console.log(3516 + (evt.target.value*100))
+
+        console.log(1139 + evt.target.value * 30);
+        eqNode.frequency.value = 1139 + evt.target.value * 30;
+      } else if (evt.target.value <= -10) {
+        console.log('-20 to -10'); // console.log(2700 + (evt.target.value*60))
+
+        console.log(2517 + evt.target.value * 100);
+        eqNode.frequency.value = 2517 + evt.target.value * 100;
+      } else if (evt.target.value <= 0) {
+        console.log('-10 to 0');
+        console.log(24000 + evt.target.value * 2280);
+        eqNode.frequency.value = 24000 + evt.target.value * 2280;
+      } else if (evt.target.value <= 10) {
+        console.log('0 to 10');
+        console.log(evt.target.value * 20);
+        eqNode2.frequency.value = evt.target.value * 20;
+      } else if (evt.target.value <= 20) {
+        console.log('10 to 20');
+        console.log(evt.target.value * 30 - 97);
+        eqNode2.frequency.value = evt.target.value * 30 - 97;
+      } else if (evt.target.value <= 30) {
+        console.log('20 to 30');
+        console.log(evt.target.value * 100 - 1503);
+        eqNode2.frequency.value = evt.target.value * 100 - 1503;
+      } else if (evt.target.value <= 40) {
+        console.log('30 to 40');
+        console.log(evt.target.value * 2280 - 67193);
+        eqNode2.frequency.value = evt.target.value * 2280 - 67193;
+      } // evt.target.value < 0 ?
+      // eqNode.frequency.value = 8121 - ((Math.pow(evt.target.value, 2)) * (Math.log(evt.target.value*-4))) :
+      // eqNode2.frequency.value = (((Math.pow(evt.target.value, 2)) * (Math.log(evt.target.value*4))) ) ;
+
+    }
+
     eqNode.gain.value = evt.target.value;
   });
 }
@@ -1624,10 +1666,26 @@ function Deck(deckNumberString) {
 
   this.lowShelf = this.audioContext.createBiquadFilter();
   this.lowShelf.type = 'lowshelf';
-  this.lowShelf.frequency.value = 300; //routing nodes
+  this.lowShelf.frequency.value = 300;
+  this.midBand = this.audioContext.createBiquadFilter();
+  this.midBand.type = 'peaking';
+  this.midBand.frequency.value = 1000;
+  this.highBand = this.audioContext.createBiquadFilter();
+  this.highBand.type = 'highshelf';
+  this.highBand.frequency.value = 1000;
+  this.lowPass = this.audioContext.createBiquadFilter();
+  this.lowPass.type = 'lowpass';
+  this.lowPass.frequency.value = 24000;
+  this.lowPass.Q.value = 0;
+  this.highPass = this.audioContext.createBiquadFilter();
+  this.highPass.type = 'highpass'; //routing nodes
 
   this.startNode.connect(this.lowShelf);
-  this.lowShelf.connect(this.audioContext.destination); // Methods
+  this.lowShelf.connect(this.midBand);
+  this.midBand.connect(this.highBand);
+  this.highBand.connect(this.lowPass);
+  this.lowPass.connect(this.highPass);
+  this.highPass.connect(this.audioContext.destination); // Methods
 
   this.playFunc = function () {
     var _this = this;
@@ -1637,17 +1695,26 @@ function Deck(deckNumberString) {
         streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
       });
     });
+  };
+
+  this.pauseFunc = function () {
+    this.scPlayer.pause();
+    this.scPlayer.resolve('https://soundcloud.com/duzigordon/jftb', function (track) {
+      console.log(track);
+    }); // this.startNode.mediaElement.playbackRate = 2
   }; // instantiating knobs
 
 
-  this.highKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-high"));
-  this.midKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-mid"));
+  this.highKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-high"), this.highBand);
+  this.midKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-mid"), this.midBand);
   this.lowShelfKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-low"), this.lowShelf);
-  this.filterKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-filter")); // Selectors
+  this.filterKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-filter"), this.lowPass, this.highPass); // Selectors
 
-  this.playBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-play")); //  event listeners
+  this.playBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-play"));
+  this.pauseBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-pause")); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
+  this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
 }
 
 var _default = Deck;
@@ -1670,7 +1737,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
-  var deck1 = new _Deck.default('1'); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
+  var deck1 = new _Deck.default('1');
+  var deck2 = new _Deck.default('2'); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
 }
 
 ;
@@ -1703,7 +1771,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60119" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50724" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

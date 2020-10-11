@@ -4,33 +4,157 @@ import '../../node_modules/precision-inputs/css/precision-inputs.fl-controls.css
 import { FLStandardKnob } from 'precision-inputs/common/precision-inputs.fl-controls';
 
 
-function KnobCreate (knobContainerClass, eqNode) {
+function KnobCreate (knobContainerClass, eqNode, eqNode2) {
 
 
-    // this.knobContainer = document.querySelector(`${knobContainerClass}`);
     this.knobContainer = document.querySelector(knobContainerClass);
 
 
-    // setTimeout(function() {console.log(this.knobContainer)}, 3000);
-
     this.knob = new FLStandardKnob(this.knobContainer);
 
-    // console.log(callback)
-
-
-
-        // retrieve value
-    // const currentValue = myKnob.value;
-
-
-
-    // // set value
-    // this.knob.value = 0.5;
-
-    // watch for changes
+                    eqNode.Q.value = 5;
 
 
     this.knob.addEventListener('change', function(evt) {
+
+        if (eqNode2) {
+
+            // eqNode.Q.value = 5;
+            // eqNode2.Q.value = 5;
+
+
+            // switch(evt.target.value){
+            //     case(evt.target.value > -20):
+            //         console.log('thing');
+                
+            //     default:
+            //         console.log(evt.target.value)
+            // }
+
+            if (evt.target.value <= -30){
+
+                console.log('less than -30');
+
+
+                console.log(840 + (evt.target.value*20));
+
+                eqNode.frequency.value = 840 + (evt.target.value*20);
+
+
+
+            }else if (evt.target.value <= -20){
+
+                console.log('-30 to -20');
+
+
+                // console.log(3516 + (evt.target.value*100))
+
+
+                console.log(1139 + (evt.target.value*30));
+
+                eqNode.frequency.value = 1139 + (evt.target.value*30);
+
+
+
+
+
+
+            }else if (evt.target.value <= -10){
+
+                console.log('-20 to -10');
+
+
+                // console.log(2700 + (evt.target.value*60))
+
+
+                console.log(2517 + (evt.target.value*100));
+
+                eqNode.frequency.value = 2517 + (evt.target.value*100);
+
+
+
+            }else if (evt.target.value <= 0){
+
+                console.log('-10 to 0');
+
+
+
+
+
+
+                console.log(24000 + (evt.target.value*2280));
+
+                eqNode.frequency.value = 24000 + (evt.target.value*2280);
+
+
+
+
+
+            }else if (evt.target.value <= 10){
+
+                console.log('0 to 10');
+
+                
+                console.log((evt.target.value*20));
+
+                eqNode2.frequency.value = (evt.target.value*20);
+
+
+
+
+
+            }else if (evt.target.value <= 20){
+
+                console.log('10 to 20');
+
+                console.log((evt.target.value*30) - 97);
+
+                eqNode2.frequency.value = (evt.target.value*30) - 97;
+
+
+
+
+            }else if (evt.target.value <= 30){
+
+
+                console.log('20 to 30');
+
+                console.log((evt.target.value*100) - 1503);
+
+                eqNode2.frequency.value = (evt.target.value*100) - 1503;
+
+
+
+
+
+
+
+            }else if (evt.target.value <= 40){
+
+                console.log('30 to 40');
+
+
+                console.log((evt.target.value*2280) - 67193);
+
+                eqNode2.frequency.value = (evt.target.value*2280) - 67193;
+
+            }
+
+
+
+
+
+
+
+
+
+            // evt.target.value < 0 ?
+            
+            // eqNode.frequency.value = 8121 - ((Math.pow(evt.target.value, 2)) * (Math.log(evt.target.value*-4))) :
+
+            // eqNode2.frequency.value = (((Math.pow(evt.target.value, 2)) * (Math.log(evt.target.value*4))) ) ;
+
+        }
 
         eqNode.gain.value = evt.target.value;
 
