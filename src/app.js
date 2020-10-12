@@ -4,6 +4,7 @@ import SoundCloudAudio from 'soundcloud-audio';
 import KnobCreate from './KnobCreate/KnobCreate.js';
 
 import Deck from './Deck/Deck.js';
+import PlayList from './PlayList/PlayList.js';
 
 
 // SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
@@ -20,6 +21,10 @@ function init(){
   const deck1 = new Deck('1');
 
   const deck2 = new Deck('2');
+
+  const playlist = new PlayList();
+
+  
 
   // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
 

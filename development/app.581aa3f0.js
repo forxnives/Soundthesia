@@ -1719,7 +1719,22 @@ function Deck(deckNumberString) {
 
 var _default = Deck;
 exports.default = _default;
-},{"soundcloud-audio":"../node_modules/soundcloud-audio/index.js","../../node_modules/precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js","../KnobCreate/KnobCreate":"../src/KnobCreate/KnobCreate.js"}],"../src/app.js":[function(require,module,exports) {
+},{"soundcloud-audio":"../node_modules/soundcloud-audio/index.js","../../node_modules/precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js","../KnobCreate/KnobCreate":"../src/KnobCreate/KnobCreate.js"}],"../src/PlayList/PlayList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function PlayList() {
+  this.selectedSong = 'ting ting';
+  console.log('playlisting');
+}
+
+var _default = PlayList;
+exports.default = _default;
+},{}],"../src/app.js":[function(require,module,exports) {
 "use strict";
 
 require("./scss/index.scss");
@@ -1730,6 +1745,8 @@ var _KnobCreate = _interopRequireDefault(require("./KnobCreate/KnobCreate.js"));
 
 var _Deck = _interopRequireDefault(require("./Deck/Deck.js"));
 
+var _PlayList = _interopRequireDefault(require("./PlayList/PlayList.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
@@ -1738,12 +1755,13 @@ document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
   var deck1 = new _Deck.default('1');
-  var deck2 = new _Deck.default('2'); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
+  var deck2 = new _Deck.default('2');
+  var playlist = new _PlayList.default(); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
 }
 
 ;
 console.log('it works mofo');
-},{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js","./PlayList/PlayList.js":"../src/PlayList/PlayList.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1771,7 +1789,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50724" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64738" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

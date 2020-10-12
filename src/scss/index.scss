@@ -8,7 +8,7 @@ body {
     height: 100%;
 }
 
-
+@import './table.scss';
 
 .app-container {
     display: grid;
@@ -54,7 +54,6 @@ header {
             grid-template-rows: 70% 1fr;
 
 
-
             &-info {
 
             }
@@ -70,8 +69,6 @@ header {
 
                     // background-color: grey;
                     padding: 30px;
-
-
 
                     margin: 0 5px;
 
@@ -95,13 +92,6 @@ header {
                     svg{
                         fill: #FFA830;
                     }
-
-
-
-
-
-
-
 
                 }
 
@@ -226,13 +216,6 @@ header {
 
             }
 
-
-
-
-
-
-
-
         }
 
     }
@@ -286,7 +269,6 @@ header {
                     -o-transform:rotate(270deg);
                     -ms-transform:rotate(270deg);
                     transform:rotate(270deg);
-    
     
     
                     &:focus{
@@ -546,12 +528,6 @@ header {
                     }
 
 
-
-
-
-
-
-
                 }
 
 
@@ -560,9 +536,6 @@ header {
 
 
         }
-
-
-
 
 
         &-eq {
@@ -682,15 +655,7 @@ header {
             }
 
 
-
-
-
-
-
-
         }
-
-
 
 
     }
