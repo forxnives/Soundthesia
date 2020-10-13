@@ -12,8 +12,8 @@ body {
 
 .app-container {
     display: grid;
-    grid-template-rows: 8vh 50vh 32vh;
-    row-gap: 4vh;
+    grid-template-rows: 6vh 50vh 40vh;
+    row-gap: 2vh;
     justify-items: center;
 
 }
@@ -63,15 +63,12 @@ header {
                 align-items: center;
                 justify-content: center;
 
-
                 .button{
-
 
                     // background-color: grey;
                     padding: 30px;
 
                     margin: 0 5px;
-
 
                     cursor: pointer;
                     color: rgba(0, 0, 0, 0.6);
@@ -96,7 +93,6 @@ header {
                 }
 
             }
-
 
         }
 
@@ -131,8 +127,6 @@ header {
                 height: 25%;
             }
         }
-
-
 
         &-tempo {
 
@@ -178,7 +172,6 @@ header {
                     -o-transform:rotate(270deg);
                     -ms-transform:rotate(270deg);
                     transform:rotate(270deg);
-    
     
     
                     &:focus{
@@ -245,8 +238,6 @@ header {
 
                 input[type=range]{
 
-
-                        
                     cursor: pointer;
                     width: 300px !important;
                     -webkit-appearance: none;
@@ -383,12 +374,10 @@ header {
                         }
                         
                     }
-                    
     
                 }
 
             }
-
 
         }
 
@@ -404,7 +393,6 @@ header {
 
 
             input[type=range]{
-
 
 
                 cursor: pointer;
@@ -423,7 +411,6 @@ header {
                 -webkit-border-radius: 20px;
                 -moz-border-radius: 20px;
                 border-radius: 20px;
-
 
 
                 &:focus{
@@ -475,7 +462,6 @@ header {
 
 
 
-
         &-panel {
 
 
@@ -483,7 +469,6 @@ header {
             border: 2px solid purple;
             display: grid;
             grid-template-rows: 70% 1fr;
-
 
 
             &-info {
@@ -502,10 +487,7 @@ header {
                     // background-color: grey;
                     padding: 30px;
 
-
-
                     margin: 0 5px;
-
 
                     cursor: pointer;
                     color: rgba(0, 0, 0, 0.6);
@@ -529,7 +511,6 @@ header {
 
 
                 }
-
 
 
             }
