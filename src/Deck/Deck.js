@@ -85,19 +85,13 @@ function Deck (deckNumberString) {
 
         this.scPlayer.pause()
 
-        this.scPlayer.resolve('https://soundcloud.com/duzigordon/jftb', function(track){
-
-        console.log(track);
-        } )
-
-
-
 
 
         // this.startNode.mediaElement.playbackRate = 2
 
 
     }
+
 
 
 

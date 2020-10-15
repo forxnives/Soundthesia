@@ -6,14 +6,16 @@
 
 body {
     height: 100%;
+    font-family: 'Fjalla One', sans-serif;
+
 }
 
 @import './table.scss';
 
 .app-container {
     display: grid;
-    grid-template-rows: 8vh 50vh 32vh;
-    row-gap: 4vh;
+    grid-template-rows: 6vh 50vh 40vh;
+    row-gap: 2vh;
     justify-items: center;
 
 }
@@ -56,6 +58,15 @@ header {
 
             &-info {
 
+                display: flex;
+                flex-direction: column;
+
+
+
+
+
+
+
             }
 
             &-transport {
@@ -63,15 +74,12 @@ header {
                 align-items: center;
                 justify-content: center;
 
-
                 .button{
-
 
                     // background-color: grey;
                     padding: 30px;
 
                     margin: 0 5px;
-
 
                     cursor: pointer;
                     color: rgba(0, 0, 0, 0.6);
@@ -96,7 +104,6 @@ header {
                 }
 
             }
-
 
         }
 
@@ -131,8 +138,6 @@ header {
                 height: 25%;
             }
         }
-
-
 
         &-tempo {
 
@@ -178,7 +183,6 @@ header {
                     -o-transform:rotate(270deg);
                     -ms-transform:rotate(270deg);
                     transform:rotate(270deg);
-    
     
     
                     &:focus{
@@ -245,8 +249,6 @@ header {
 
                 input[type=range]{
 
-
-                        
                     cursor: pointer;
                     width: 300px !important;
                     -webkit-appearance: none;
@@ -383,12 +385,10 @@ header {
                         }
                         
                     }
-                    
     
                 }
 
             }
-
 
         }
 
@@ -404,7 +404,6 @@ header {
 
 
             input[type=range]{
-
 
 
                 cursor: pointer;
@@ -423,7 +422,6 @@ header {
                 -webkit-border-radius: 20px;
                 -moz-border-radius: 20px;
                 border-radius: 20px;
-
 
 
                 &:focus{
@@ -475,7 +473,6 @@ header {
 
 
 
-
         &-panel {
 
 
@@ -485,9 +482,10 @@ header {
             grid-template-rows: 70% 1fr;
 
 
-
             &-info {
 
+                display: flex;
+                flex-direction: column;
             }
 
             &-transport {
@@ -502,10 +500,7 @@ header {
                     // background-color: grey;
                     padding: 30px;
 
-
-
                     margin: 0 5px;
-
 
                     cursor: pointer;
                     color: rgba(0, 0, 0, 0.6);
@@ -529,7 +524,6 @@ header {
 
 
                 }
-
 
 
             }
@@ -669,3 +663,61 @@ header {
     border: 2px solid black;
 }
 
+
+
+
+
+
+
+// FOR THE LOAD BUTTON //
+
+
+
+
+.waveform-container {
+    height:13vh;
+}
+
+.loadBtn-container {
+    position: relative;
+
+
+    .loadBtn {
+
+    
+        // background-color: grey;
+        padding: 30px;
+
+        margin: 0 5px;
+        position: absolute;
+        right: 1vw;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+         -khtml-user-select: none; /* Konqueror HTML */
+           -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently
+                                      supported by Chrome, Edge, Opera and Firefox */
+
+
+
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.6);
+        text-shadow: -1px 1px 0px rgba(green, 0.14);
+        text-align: center;
+        font-size: 12px;
+        padding: 10px;
+        border-radius: 300px;
+        display: inline-block;
+        background-image: linear-gradient(#393F45, #52585E);
+        min-height: 5px;
+        min-width: 40px;
+        box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -3px -2px 5px rgba(0, 0, 0, 0.5);
+        &:active {
+            box-shadow: 0 1px 5px rgba(255, 255, 255, 0.08) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -2px 2px 2px rgba(0, 0, 0, 0.25), 0 10px 100px rgba(0, 0, 0, 0.2) inset;
+        }
+
+    }
+
+}
