@@ -6,6 +6,8 @@
 
 body {
     height: 100%;
+    font-family: 'Fjalla One', sans-serif;
+
 }
 
 @import './table.scss';
@@ -55,6 +57,15 @@ header {
 
 
             &-info {
+
+                display: flex;
+                flex-direction: column;
+
+
+
+
+
+
 
             }
 
@@ -473,6 +484,8 @@ header {
 
             &-info {
 
+                display: flex;
+                flex-direction: column;
             }
 
             &-transport {
@@ -650,3 +663,61 @@ header {
     border: 2px solid black;
 }
 
+
+
+
+
+
+
+// FOR THE LOAD BUTTON //
+
+
+
+
+.waveform-container {
+    height:13vh;
+}
+
+.loadBtn-container {
+    position: relative;
+
+
+    .loadBtn {
+
+    
+        // background-color: grey;
+        padding: 30px;
+
+        margin: 0 5px;
+        position: absolute;
+        right: 1vw;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+         -khtml-user-select: none; /* Konqueror HTML */
+           -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently
+                                      supported by Chrome, Edge, Opera and Firefox */
+
+
+
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.6);
+        text-shadow: -1px 1px 0px rgba(green, 0.14);
+        text-align: center;
+        font-size: 12px;
+        padding: 10px;
+        border-radius: 300px;
+        display: inline-block;
+        background-image: linear-gradient(#393F45, #52585E);
+        min-height: 5px;
+        min-width: 40px;
+        box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -3px -2px 5px rgba(0, 0, 0, 0.5);
+        &:active {
+            box-shadow: 0 1px 5px rgba(255, 255, 255, 0.08) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -2px 2px 2px rgba(0, 0, 0, 0.25), 0 10px 100px rgba(0, 0, 0, 0.2) inset;
+        }
+
+    }
+
+}

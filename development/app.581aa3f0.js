@@ -1698,10 +1698,7 @@ function Deck(deckNumberString) {
   };
 
   this.pauseFunc = function () {
-    this.scPlayer.pause();
-    this.scPlayer.resolve('https://soundcloud.com/duzigordon/jftb', function (track) {
-      console.log(track);
-    }); // this.startNode.mediaElement.playbackRate = 2
+    this.scPlayer.pause(); // this.startNode.mediaElement.playbackRate = 2
   }; // instantiating knobs
 
 
@@ -1727,12 +1724,86 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-function PlayList() {
-  this.selectedSong = 'ting ting';
-  console.log('playlisting');
+function PlayList(deck) {
+  var _this = this;
+
+  //  state   //
+  this.selectedTrack = null; //  Selectors   //
+
+  this.searchInput = document.querySelector('.search-input');
+  this.addBtn = document.querySelector('.addbtn');
+  this.clearAllBtn = document.querySelector('.clearbtn');
+  this.tableBodySelect = document.querySelector('.tablebody');
+  console.log(this.tableBodySelect); //  Methods //
+
+  this.addTrackFunc = function (url) {
+    var self = this;
+    deck.scPlayer.resolve(url, function (track) {
+      self.trCreateFunc(track);
+    });
+  };
+
+  this.trCreateFunc = function (track) {
+    var self = this;
+    var tableRow = document.createElement('tr');
+    tableRow.id = document.querySelectorAll('tr').length - 1;
+    tableRow.addEventListener('click', function (e) {
+      self.selectTrFunc(e);
+    });
+    tableRow.innerHTML = "\n        \n        <td> <img style=\"max-height: 40px;\" src=".concat(track.artwork_url, "></img> </td>\n        <td>").concat(track.title, "</td>\n        <td>").concat(track.user.username, "</td>\n        <td>").concat(track.genre, "</td>\n        <td>").concat(this.millisecondConvert(track.duration), "</td>\n        <td>").concat(track.release_year, "</td>\n        \n        ");
+    this.tableBodySelect.appendChild(tableRow);
+  };
+
+  this.millisecondConvert = function (millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = (millis % 60000 / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  };
+
+  this.selectTrFunc = function (evt) {
+    if (this.selectedTrack) {
+      if (evt.target.parentElement.id === this.selectedTrack.id) {
+        this.selectedTrack.classList.remove('anotherclass');
+        this.selectedTrack = null;
+      } else {
+        this.selectedTrack.classList.remove('anotherclass');
+        this.selectedTrack = evt.target.parentElement;
+        this.selectedTrack.classList.add('anotherclass');
+      }
+    } else {
+      evt.target.parentElement.classList.add("anotherclass");
+      this.selectedTrack = evt.target.parentElement;
+    }
+  };
+
+  this.clearAllFunc = function (tableBody) {
+    tableBody.innerHTML = '';
+  }; //  event listeners //
+
+
+  this.addBtn.addEventListener('click', function () {
+    return _this.addTrackFunc(_this.searchInput.value);
+  });
+  this.clearAllBtn.addEventListener('click', function () {
+    return _this.clearAllFunc(_this.tableBodySelect);
+  });
 }
 
 var _default = PlayList;
+exports.default = _default;
+},{}],"../src/State/State.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function State() {
+  this.resolvedTrack = null;
+}
+
+var _default = State;
 exports.default = _default;
 },{}],"../src/app.js":[function(require,module,exports) {
 "use strict";
@@ -1747,6 +1818,8 @@ var _Deck = _interopRequireDefault(require("./Deck/Deck.js"));
 
 var _PlayList = _interopRequireDefault(require("./PlayList/PlayList.js"));
 
+var _State = _interopRequireDefault(require("./State/State.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
@@ -1754,14 +1827,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
+  var state = new _State.default();
   var deck1 = new _Deck.default('1');
   var deck2 = new _Deck.default('2');
-  var playlist = new _PlayList.default(); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
+  var playlist = new _PlayList.default(deck2, state); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
 }
 
 ;
 console.log('it works mofo');
-},{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js","./PlayList/PlayList.js":"../src/PlayList/PlayList.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js","./PlayList/PlayList.js":"../src/PlayList/PlayList.js","./State/State.js":"../src/State/State.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1789,7 +1863,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64738" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50437" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

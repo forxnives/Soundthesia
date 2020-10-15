@@ -27,7 +27,7 @@
     --dt-input-color: var(--primary-color);
   }
   
-  .material-icons {
+  .playlist-buttons {
     font-size: 16px;
   }
   
@@ -41,6 +41,9 @@
     // min-width: 950px;
     margin: 0 auto;
     font-size: 12px;
+
+    // overflow: hidden;
+
   }
   
   .datatable-container .header-tools {
@@ -163,13 +166,19 @@
   .datatable-container .datatable td {
     border-bottom: solid 1px var(--dt-border-color);
   }
+
+  .datatable-container .datatable tbody  {
+    overflow: auto;
+  }
   
   .datatable-container .datatable tbody tr:nth-child(even) {
-    background-color: var(--dt-even-row-color);
+    // background-color: var(--dt-even-row-color);
+    background-color: rgb(46, 50, 53);
   }
   
   .datatable-container .datatable tbody tr:hover {
     background-color: var(--dt-hover-cell-color);
+    cursor: pointer;
   }
   
   .datatable-container .datatable tbody tr .available::after,
@@ -217,4 +226,30 @@
   .datatable-container .datatable tbody tr .offline::before {
     background-color: var(--dt-status-offline-color);
   }
+
+  // .tbody {
+  //   overflow-y: scroll;
+  // }
   
+
+
+
+
+  .datatable tbody {
+    display: block;
+    max-height: 30vh;
+    // overflow-y: auto;
+  }
+  
+  .datatable thead, .datatable tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .datatable thead {
+    width: calc( 100% - 1.1em );
+  }
+
+  .anotherclass { 
+    background-color: green !important; 
+  }

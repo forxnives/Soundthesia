@@ -5,6 +5,7 @@
 
 body {
   height: 100%;
+  font-family: "Fjalla One", sans-serif;
 }
 
 :root {
@@ -32,7 +33,7 @@ body {
   --dt-input-color: var(--primary-color);
 }
 
-.material-icons {
+.playlist-buttons {
   font-size: 16px;
 }
 
@@ -167,12 +168,17 @@ body {
   border-bottom: solid 1px var(--dt-border-color);
 }
 
+.datatable-container .datatable tbody {
+  overflow: auto;
+}
+
 .datatable-container .datatable tbody tr:nth-child(even) {
-  background-color: var(--dt-even-row-color);
+  background-color: #2e3235;
 }
 
 .datatable-container .datatable tbody tr:hover {
   background-color: var(--dt-hover-cell-color);
+  cursor: pointer;
 }
 
 .datatable-container .datatable tbody tr .available::after,
@@ -221,10 +227,29 @@ body {
   background-color: var(--dt-status-offline-color);
 }
 
+.datatable tbody {
+  display: block;
+  max-height: 30vh;
+}
+
+.datatable thead, .datatable tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.datatable thead {
+  width: calc( 100% - 1.1em );
+}
+
+.anotherclass {
+  background-color: green !important;
+}
+
 .app-container {
   display: grid;
-  grid-template-rows: 8vh 50vh 32vh;
-  row-gap: 4vh;
+  grid-template-rows: 6vh 50vh 40vh;
+  row-gap: 2vh;
   justify-items: center;
 }
 
@@ -249,6 +274,10 @@ header {
   border: 2px solid purple;
   display: grid;
   grid-template-rows: 70% 1fr;
+}
+.decks-container .deck1-panel-info {
+  display: flex;
+  flex-direction: column;
 }
 .decks-container .deck1-panel-transport {
   display: flex;
@@ -510,6 +539,10 @@ header {
   display: grid;
   grid-template-rows: 70% 1fr;
 }
+.decks-container .deck2-panel-info {
+  display: flex;
+  flex-direction: column;
+}
 .decks-container .deck2-panel-transport {
   display: flex;
   align-items: center;
@@ -616,6 +649,48 @@ header {
 .playlist-container {
   width: 95%;
   border: 2px solid black;
+}
+
+.waveform-container {
+  height: 13vh;
+}
+
+.loadBtn-container {
+  position: relative;
+}
+.loadBtn-container .loadBtn {
+  padding: 30px;
+  margin: 0 5px;
+  position: absolute;
+  right: 1vw;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome, Edge, Opera and Firefox */
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  text-shadow: -1px 1px 0px rgba(0, 128, 0, 0.14);
+  text-align: center;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 300px;
+  display: inline-block;
+  background-image: linear-gradient(#393F45, #52585E);
+  min-height: 5px;
+  min-width: 40px;
+  box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -3px -2px 5px rgba(0, 0, 0, 0.5);
+}
+.loadBtn-container .loadBtn:active {
+  box-shadow: 0 1px 5px rgba(255, 255, 255, 0.08) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -2px 2px 2px rgba(0, 0, 0, 0.25), 0 10px 100px rgba(0, 0, 0, 0.2) inset;
 }
 .knob-input__container{position:relative}.knob-input__visual{pointer-events:none;width:100%;height:100%}.knob-input__input{cursor:-webkit-grab;cursor:grab;position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}body.knob-input__drag-active,body.knob-input__drag-active *{cursor:-webkit-grabbing!important;cursor:grabbing!important}.fl-standard-knob .fl-standard-knob__svg{overflow:visible}.fl-standard-knob.drag-active .fl-standard-knob__dial,.fl-standard-knob:hover .fl-standard-knob__dial{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob.drag-active .fl-standard-knob__dial-highlight,.fl-standard-knob:hover .fl-standard-knob__dial-highlight{opacity:.05}.fl-standard-knob.focus-active .fl-standard-knob__focus-indicator{opacity:.8}.fl-standard-knob__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial-highlight{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial .fl-reactive-grip-dial__svg{overflow:visible}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__guide-ring,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__guide-ring{-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__chrome,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__chrome{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.focus-active .fl-reactive-grip-dial__focus-indicator{opacity:.8}.fl-reactive-grip-dial__guide-ring{-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__chrome{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}
 /*# sourceMappingURL=/app.581aa3f0.css.map */
