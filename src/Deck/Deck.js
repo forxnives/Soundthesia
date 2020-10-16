@@ -8,12 +8,15 @@ import KnobCreate from '../KnobCreate/KnobCreate';
 
 
 
-function Deck (deckNumberString) {
+function Deck (deckNumberString, state) {
+
+    //  State   //
+    this.loadedTrack = null;
+
 
     //using soundcloud dependancy 
     this.scPlayer = new SoundCloudAudio('72e56a72d70b611ec8bcab7b2faf1015');
 
-    
 
     //instantiating web audio API audioContext
     this.audioContext = new AudioContext();
@@ -71,9 +74,12 @@ function Deck (deckNumberString) {
 
         this.audioContext.resume().then(() => {
 
-        this.scPlayer.play({
-            streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
-            });
+
+            this.scPlayer.play({
+                // streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
+                // streamUrl: "https://api.soundcloud.com/tracks/774880408/stream"
+                streamUrl: `${this.loadedTrack.uri}/stream`
+                });
             
         });
 
@@ -85,11 +91,17 @@ function Deck (deckNumberString) {
 
         this.scPlayer.pause()
 
-
-
         // this.startNode.mediaElement.playbackRate = 2
 
+    }
 
+    this.loadTrackFunc = function() {
+
+        this.loadedTrack = state.selectedTrack;
+        
+
+        
+        
     }
 
 
@@ -109,12 +121,18 @@ function Deck (deckNumberString) {
 
     this.pauseBtn = document.querySelector(`.deck${deckNumberString}-transport-pause`);
 
+    this.loadTrackBtn = document.querySelector(`.deck${deckNumberString}-panel .loadBtn`)
+
+
+
 
     //  event listeners
 
     this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
 
     this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
+
+    this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
 
 
 

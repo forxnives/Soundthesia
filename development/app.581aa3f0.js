@@ -1654,8 +1654,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
 // SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
-function Deck(deckNumberString) {
-  //using soundcloud dependancy 
+function Deck(deckNumberString, state) {
+  //  State   //
+  this.loadedTrack = null; //using soundcloud dependancy 
+
   this.scPlayer = new _soundcloudAudio.default('72e56a72d70b611ec8bcab7b2faf1015'); //instantiating web audio API audioContext
 
   this.audioContext = new AudioContext(); //avoiding CORS error
@@ -1692,13 +1694,19 @@ function Deck(deckNumberString) {
 
     this.audioContext.resume().then(function () {
       _this.scPlayer.play({
-        streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
+        // streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
+        // streamUrl: "https://api.soundcloud.com/tracks/774880408/stream"
+        streamUrl: "".concat(_this.loadedTrack.uri, "/stream")
       });
     });
   };
 
   this.pauseFunc = function () {
     this.scPlayer.pause(); // this.startNode.mediaElement.playbackRate = 2
+  };
+
+  this.loadTrackFunc = function () {
+    this.loadedTrack = state.selectedTrack;
   }; // instantiating knobs
 
 
@@ -1708,10 +1716,12 @@ function Deck(deckNumberString) {
   this.filterKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-filter"), this.lowPass, this.highPass); // Selectors
 
   this.playBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-play"));
-  this.pauseBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-pause")); //  event listeners
+  this.pauseBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-pause"));
+  this.loadTrackBtn = document.querySelector(".deck".concat(deckNumberString, "-panel .loadBtn")); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
+  this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
 }
 
 var _default = Deck;
@@ -1724,7 +1734,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-function PlayList(deck) {
+function PlayList(deck, state) {
   var _this = this;
 
   //  state   //
@@ -1733,8 +1743,7 @@ function PlayList(deck) {
   this.searchInput = document.querySelector('.search-input');
   this.addBtn = document.querySelector('.addbtn');
   this.clearAllBtn = document.querySelector('.clearbtn');
-  this.tableBodySelect = document.querySelector('.tablebody');
-  console.log(this.tableBodySelect); //  Methods //
+  this.tableBodySelect = document.querySelector('.tablebody'); //  Methods //
 
   this.addTrackFunc = function (url) {
     var self = this;
@@ -1748,7 +1757,7 @@ function PlayList(deck) {
     var tableRow = document.createElement('tr');
     tableRow.id = document.querySelectorAll('tr').length - 1;
     tableRow.addEventListener('click', function (e) {
-      self.selectTrFunc(e);
+      self.selectTrFunc(e, track);
     });
     tableRow.innerHTML = "\n        \n        <td> <img style=\"max-height: 40px;\" src=".concat(track.artwork_url, "></img> </td>\n        <td>").concat(track.title, "</td>\n        <td>").concat(track.user.username, "</td>\n        <td>").concat(track.genre, "</td>\n        <td>").concat(this.millisecondConvert(track.duration), "</td>\n        <td>").concat(track.release_year, "</td>\n        \n        ");
     this.tableBodySelect.appendChild(tableRow);
@@ -1760,19 +1769,23 @@ function PlayList(deck) {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
   };
 
-  this.selectTrFunc = function (evt) {
+  this.selectTrFunc = function (evt, track) {
+    // console.log(track)
     if (this.selectedTrack) {
       if (evt.target.parentElement.id === this.selectedTrack.id) {
         this.selectedTrack.classList.remove('anotherclass');
         this.selectedTrack = null;
+        state.selectedTrack = null;
       } else {
         this.selectedTrack.classList.remove('anotherclass');
         this.selectedTrack = evt.target.parentElement;
         this.selectedTrack.classList.add('anotherclass');
+        state.selectedTrack = track;
       }
     } else {
       evt.target.parentElement.classList.add("anotherclass");
       this.selectedTrack = evt.target.parentElement;
+      state.selectedTrack = track;
     }
   };
 
@@ -1800,7 +1813,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 function State() {
-  this.resolvedTrack = null;
+  this.selectedTrack = null;
 }
 
 var _default = State;
@@ -1828,8 +1841,8 @@ document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
   var state = new _State.default();
-  var deck1 = new _Deck.default('1');
-  var deck2 = new _Deck.default('2');
+  var deck1 = new _Deck.default('1', state);
+  var deck2 = new _Deck.default('2', state);
   var playlist = new _PlayList.default(deck2, state); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
 }
 
@@ -1863,7 +1876,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50437" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61999" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

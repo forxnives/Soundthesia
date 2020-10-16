@@ -1,6 +1,6 @@
 
 
-function PlayList (deck) {
+function PlayList (deck, state) {
 
 
     //  state   //
@@ -18,8 +18,6 @@ function PlayList (deck) {
     this.clearAllBtn = document.querySelector('.clearbtn');
 
     this.tableBodySelect = document.querySelector('.tablebody');
-
-    console.log(this.tableBodySelect)
 
 
 
@@ -52,7 +50,7 @@ function PlayList (deck) {
 
         tableRow.addEventListener('click', function(e){
 
-            self.selectTrFunc(e);
+            self.selectTrFunc(e, track);
 
         });
         
@@ -86,7 +84,10 @@ function PlayList (deck) {
 
 
 
-    this.selectTrFunc = function(evt) {
+    this.selectTrFunc = function(evt, track) {
+
+
+        // console.log(track)
 
 
         if (this.selectedTrack){
@@ -95,17 +96,20 @@ function PlayList (deck) {
 
                 this.selectedTrack.classList.remove('anotherclass')
                 this.selectedTrack = null;
+                state.selectedTrack = null;
                 
             }else {
                 this.selectedTrack.classList.remove('anotherclass')
                 this.selectedTrack = evt.target.parentElement;
                 this.selectedTrack.classList.add('anotherclass')
+                state.selectedTrack = track;
             }
 
         }else{
 
             evt.target.parentElement.classList.add("anotherclass");
             this.selectedTrack = evt.target.parentElement;
+            state.selectedTrack = track;
 
         }
 

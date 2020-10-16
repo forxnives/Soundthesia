@@ -21,9 +21,9 @@ function init(){
   const state = new State();
   
   
-  const deck1 = new Deck('1');
+  const deck1 = new Deck('1', state);
 
-  const deck2 = new Deck('2');
+  const deck2 = new Deck('2', state);
 
   const playlist = new PlayList(deck2, state);
 

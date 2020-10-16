@@ -3,7 +3,7 @@
 
 function State() {
 
-    this.resolvedTrack = null;
+    this.selectedTrack = null;
     
 
 
