@@ -653,6 +653,29 @@ header {
 
 .waveform-container {
   height: 13vh;
+  margin: 10px;
+  background: #bfeecc;
+  left: 58.8%;
+  top: 37%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.waveform-container .waveform {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.waveform-container .waveform img {
+  width: 100%;
+  background-color: silver;
+  mix-blend-mode: multiply;
+  height: 70%;
 }
 
 .loadBtn-container {

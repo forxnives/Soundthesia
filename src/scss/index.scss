@@ -61,12 +61,6 @@ header {
                 display: flex;
                 flex-direction: column;
 
-
-
-
-
-
-
             }
 
             &-transport {
@@ -476,7 +470,6 @@ header {
         &-panel {
 
 
-
             border: 2px solid purple;
             display: grid;
             grid-template-rows: 70% 1fr;
@@ -676,6 +669,40 @@ header {
 
 .waveform-container {
     height:13vh;
+    // border: 2px solid black;
+    margin: 10px;
+
+    // position: absolute;
+    // height: 4em;
+    // width: 8em;
+    background: #bfeecc;
+    left: 58.8%;
+    top: 37%;
+    // box-shadow: #4a505a 0px 0px 0px 5px inset, #616976 0px 0px 0px 15px inset, 0px 4px lightgrey;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+
+    .waveform {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        align-items: center;
+
+        img {
+            width: 100%;
+            background-color: silver;
+            mix-blend-mode: multiply;
+
+            height: 70%;
+        }
+    }
+
 }
 
 .loadBtn-container {

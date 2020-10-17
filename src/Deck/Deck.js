@@ -10,8 +10,18 @@ import KnobCreate from '../KnobCreate/KnobCreate';
 
 function Deck (deckNumberString, state) {
 
-    //  State   //
+    //  Internal state   //
     this.loadedTrack = null;
+
+    //  instantiating wavesurfer    //
+
+    // this.wavesurfer = WaveSurfer.create({
+    //     container: '#thang',
+    //     waveColor: 'violet',
+    //     progressColor: 'purple'
+    // });
+
+    
 
 
     //using soundcloud dependancy 
@@ -98,13 +108,13 @@ function Deck (deckNumberString, state) {
     this.loadTrackFunc = function() {
 
         this.loadedTrack = state.selectedTrack;
-        
 
-        
+        console.log(this.loadedTrack)
+
+
+
         
     }
-
-
 
 
     // instantiating knobs
