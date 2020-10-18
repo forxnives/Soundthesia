@@ -248,7 +248,7 @@ body {
 
 .app-container {
   display: grid;
-  grid-template-rows: 6vh 50vh 40vh;
+  grid-template-rows: 2vh 54vh 40vh;
   row-gap: 2vh;
   justify-items: center;
 }
@@ -266,9 +266,9 @@ header {
 }
 .decks-container .deck1 {
   border: 2px solid black;
-  height: 100%;
+  height: 74%;
   display: grid;
-  grid-template-columns: 80px 5fr 1fr;
+  grid-template-columns: 80px 5fr;
 }
 .decks-container .deck1-panel {
   border: 2px solid purple;
@@ -307,9 +307,12 @@ header {
   fill: #FFA830;
 }
 .decks-container .deck1-eq {
+  position: absolute;
   height: 100%;
   border: 2px solid hotpink;
-  width: 12vh;
+  width: 11vh;
+  align-self: flex-end;
+  left: 0%;
 }
 .decks-container .deck1-eq-high {
   border: 2px solid green;
@@ -320,7 +323,6 @@ header {
   border: 2px solid green;
   width: 100%;
   height: 25%;
-  z-index: 30;
 }
 .decks-container .deck1-eq-low {
   border: 2px solid green;
@@ -334,7 +336,8 @@ header {
 }
 .decks-container .deck1-tempo {
   border: 2px solid crimson;
-  height: 70%;
+  align-self: flex-end;
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -348,7 +351,6 @@ header {
   width: 260px !important;
   -webkit-appearance: none;
   z-index: 200;
-  width: 50px;
   border: 1px solid #e6e6e6;
   background-color: #e6e6e6;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6e6e6), to(#d2d2d2));
@@ -383,8 +385,9 @@ header {
   width: 30px;
 }
 .decks-container .mixer {
+  min-width: 340px;
   display: grid;
-  grid-template-columns: 80px 1.5fr 80px;
+  grid-template-columns: 100px 1.5fr 100px;
   grid-template-rows: 4fr 1fr;
 }
 .decks-container .mixer-deck1-vol {
@@ -393,7 +396,8 @@ header {
 }
 .decks-container .mixer-deck1-vol .input-container {
   position: absolute;
-  left: -146%;
+  z-index: 300;
+  left: -13%;
   top: 43%;
 }
 .decks-container .mixer-deck1-vol .input-container input[type=range] {
@@ -444,10 +448,13 @@ header {
 }
 .decks-container .mixer-deck2-vol .input-container {
   position: absolute;
-  left: -146%;
+  z-index: 300;
+  pointer-events: none;
+  left: -198%;
   top: 43%;
 }
 .decks-container .mixer-deck2-vol .input-container input[type=range] {
+  pointer-events: auto;
   cursor: pointer;
   width: 300px !important;
   -webkit-appearance: none;
@@ -530,9 +537,9 @@ header {
 }
 .decks-container .deck2 {
   border: 2px solid black;
-  height: 100%;
+  height: 74%;
   display: grid;
-  grid-template-columns: 1fr 5fr 80px;
+  grid-template-columns: 5fr 80px;
 }
 .decks-container .deck2-panel {
   border: 2px solid purple;
@@ -542,6 +549,7 @@ header {
 .decks-container .deck2-panel-info {
   display: flex;
   flex-direction: column;
+  width: 30vw;
 }
 .decks-container .deck2-panel-transport {
   display: flex;
@@ -571,9 +579,12 @@ header {
   fill: #FFA830;
 }
 .decks-container .deck2-eq {
+  position: absolute;
   height: 100%;
   border: 2px solid hotpink;
-  width: 12vh;
+  width: 11vh;
+  align-self: flex-end;
+  right: 0%;
 }
 .decks-container .deck2-eq-high {
   border: 2px solid green;
@@ -597,7 +608,8 @@ header {
 }
 .decks-container .deck2-tempo {
   border: 2px solid crimson;
-  height: 70%;
+  align-self: flex-end;
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -611,7 +623,6 @@ header {
   width: 260px !important;
   -webkit-appearance: none;
   z-index: 200;
-  width: 50px;
   border: 1px solid #e6e6e6;
   background-color: #e6e6e6;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6e6e6), to(#d2d2d2));
@@ -652,30 +663,13 @@ header {
 }
 
 .waveform-container {
-  height: 13vh;
-  margin: 10px;
-  background: #bfeecc;
-  left: 58.8%;
-  top: 37%;
+  margin-bottom: 10px;
   display: -webkit-box;
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
-}
-.waveform-container .waveform {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.waveform-container .waveform img {
-  width: 100%;
-  background-color: silver;
-  mix-blend-mode: multiply;
-  height: 70%;
 }
 
 .loadBtn-container {
@@ -714,6 +708,19 @@ header {
 }
 .loadBtn-container .loadBtn:active {
   box-shadow: 0 1px 5px rgba(255, 255, 255, 0.08) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -2px 2px 2px rgba(0, 0, 0, 0.25), 0 10px 100px rgba(0, 0, 0, 0.2) inset;
+}
+
+.waveform-contain {
+  height: 128px;
+  width: 100%;
+  border: 2px solid black;
+  position: relative;
+  background: #bfeecc;
+}
+.waveform-contain .waveform-position {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
 }
 .knob-input__container{position:relative}.knob-input__visual{pointer-events:none;width:100%;height:100%}.knob-input__input{cursor:-webkit-grab;cursor:grab;position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}body.knob-input__drag-active,body.knob-input__drag-active *{cursor:-webkit-grabbing!important;cursor:grabbing!important}.fl-standard-knob .fl-standard-knob__svg{overflow:visible}.fl-standard-knob.drag-active .fl-standard-knob__dial,.fl-standard-knob:hover .fl-standard-knob__dial{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob.drag-active .fl-standard-knob__dial-highlight,.fl-standard-knob:hover .fl-standard-knob__dial-highlight{opacity:.05}.fl-standard-knob.focus-active .fl-standard-knob__focus-indicator{opacity:.8}.fl-standard-knob__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial-highlight{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial .fl-reactive-grip-dial__svg{overflow:visible}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__guide-ring,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__guide-ring{-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__chrome,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__chrome{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.focus-active .fl-reactive-grip-dial__focus-indicator{opacity:.8}.fl-reactive-grip-dial__guide-ring{-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__chrome{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}
 /*# sourceMappingURL=/app.581aa3f0.css.map */

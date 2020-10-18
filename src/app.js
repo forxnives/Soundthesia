@@ -17,25 +17,36 @@ document.addEventListener('DOMContentLoaded', init, false);
 
 
 
+
+
 function init(){
 
   const state = new State();
 
-  this.functiontest = function(){
+  // this.functiontest = function(){
 
 
-    var wavesurfer = WaveSurfer.create({
+  //   // var wavesurfer = WaveSurfer.create({
 
-        container: '#waveform',
-        waveColor: 'violet',
-        progressColor: 'purple'
+  //   //     container: '#waveform',
+  //   //     waveColor: 'violet',
+  //   //     progressColor: 'purple'
 
-    });
-
-
-  }
+  //   // });
 
 
+  // }
+
+
+  // const wavesurfer = WaveSurfer.create({
+  //   container: '#waveform',
+  //   waveColor: 'red',
+  //   progressColor: 'purple'
+  // });
+  
+  // wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
+
+  
 
 
 //   var wavesurfer = WaveSurfer.create({

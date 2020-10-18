@@ -1636,196 +1636,7 @@ function KnobCreate(knobContainerClass, eqNode, eqNode2) {
 
 var _default = KnobCreate;
 exports.default = _default;
-},{"../../node_modules/precision-inputs/css/precision-inputs.fl-controls.css":"../node_modules/precision-inputs/css/precision-inputs.fl-controls.css","precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js"}],"../src/Deck/Deck.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _soundcloudAudio = _interopRequireDefault(require("soundcloud-audio"));
-
-var _precisionInputs = require("../../node_modules/precision-inputs/common/precision-inputs.fl-controls");
-
-var _KnobCreate = _interopRequireDefault(require("../KnobCreate/KnobCreate"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
-// SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
-function Deck(deckNumberString, state) {
-  //  Internal state   //
-  this.loadedTrack = null; //  instantiating wavesurfer    //
-  // this.wavesurfer = WaveSurfer.create({
-  //     container: '#thang',
-  //     waveColor: 'violet',
-  //     progressColor: 'purple'
-  // });
-  //using soundcloud dependancy 
-
-  this.scPlayer = new _soundcloudAudio.default('72e56a72d70b611ec8bcab7b2faf1015'); //instantiating web audio API audioContext
-
-  this.audioContext = new AudioContext(); //avoiding CORS error
-
-  this.scPlayer.audio.crossOrigin = 'anonymous'; //connecting soundcloud player html element to audioContext
-
-  this.startNode = this.audioContext.createMediaElementSource(this.scPlayer.audio); //instantiating eq nodes
-
-  this.lowShelf = this.audioContext.createBiquadFilter();
-  this.lowShelf.type = 'lowshelf';
-  this.lowShelf.frequency.value = 300;
-  this.midBand = this.audioContext.createBiquadFilter();
-  this.midBand.type = 'peaking';
-  this.midBand.frequency.value = 1000;
-  this.highBand = this.audioContext.createBiquadFilter();
-  this.highBand.type = 'highshelf';
-  this.highBand.frequency.value = 1000;
-  this.lowPass = this.audioContext.createBiquadFilter();
-  this.lowPass.type = 'lowpass';
-  this.lowPass.frequency.value = 24000;
-  this.lowPass.Q.value = 0;
-  this.highPass = this.audioContext.createBiquadFilter();
-  this.highPass.type = 'highpass'; //routing nodes
-
-  this.startNode.connect(this.lowShelf);
-  this.lowShelf.connect(this.midBand);
-  this.midBand.connect(this.highBand);
-  this.highBand.connect(this.lowPass);
-  this.lowPass.connect(this.highPass);
-  this.highPass.connect(this.audioContext.destination); // Methods
-
-  this.playFunc = function () {
-    var _this = this;
-
-    this.audioContext.resume().then(function () {
-      _this.scPlayer.play({
-        // streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
-        // streamUrl: "https://api.soundcloud.com/tracks/774880408/stream"
-        streamUrl: "".concat(_this.loadedTrack.uri, "/stream")
-      });
-    });
-  };
-
-  this.pauseFunc = function () {
-    this.scPlayer.pause(); // this.startNode.mediaElement.playbackRate = 2
-  };
-
-  this.loadTrackFunc = function () {
-    this.loadedTrack = state.selectedTrack;
-    console.log(this.loadedTrack);
-  }; // instantiating knobs
-
-
-  this.highKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-high"), this.highBand);
-  this.midKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-mid"), this.midBand);
-  this.lowShelfKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-low"), this.lowShelf);
-  this.filterKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-filter"), this.lowPass, this.highPass); // Selectors
-
-  this.playBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-play"));
-  this.pauseBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-pause"));
-  this.loadTrackBtn = document.querySelector(".deck".concat(deckNumberString, "-panel .loadBtn")); //  event listeners
-
-  this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
-  this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
-  this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
-}
-
-var _default = Deck;
-exports.default = _default;
-},{"soundcloud-audio":"../node_modules/soundcloud-audio/index.js","../../node_modules/precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js","../KnobCreate/KnobCreate":"../src/KnobCreate/KnobCreate.js"}],"../src/PlayList/PlayList.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function PlayList(deck, state) {
-  var _this = this;
-
-  //  state   //
-  this.selectedTrack = null; //  Selectors   //
-
-  this.searchInput = document.querySelector('.search-input');
-  this.addBtn = document.querySelector('.addbtn');
-  this.clearAllBtn = document.querySelector('.clearbtn');
-  this.tableBodySelect = document.querySelector('.tablebody'); //  Methods //
-
-  this.addTrackFunc = function (url) {
-    var self = this;
-    deck.scPlayer.resolve(url, function (track) {
-      self.trCreateFunc(track);
-    });
-  };
-
-  this.trCreateFunc = function (track) {
-    var self = this;
-    var tableRow = document.createElement('tr');
-    tableRow.id = document.querySelectorAll('tr').length - 1;
-    tableRow.addEventListener('click', function (e) {
-      self.selectTrFunc(e, track);
-    });
-    tableRow.innerHTML = "\n        \n        <td> <img style=\"max-height: 40px;\" src=".concat(track.artwork_url, "></img> </td>\n        <td>").concat(track.title, "</td>\n        <td>").concat(track.user.username, "</td>\n        <td>").concat(track.genre, "</td>\n        <td>").concat(this.millisecondConvert(track.duration), "</td>\n        <td>").concat(track.release_year, "</td>\n        \n        ");
-    this.tableBodySelect.appendChild(tableRow);
-  };
-
-  this.millisecondConvert = function (millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = (millis % 60000 / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-  };
-
-  this.selectTrFunc = function (evt, track) {
-    // console.log(track)
-    if (this.selectedTrack) {
-      if (evt.target.parentElement.id === this.selectedTrack.id) {
-        this.selectedTrack.classList.remove('anotherclass');
-        this.selectedTrack = null;
-        state.selectedTrack = null;
-      } else {
-        this.selectedTrack.classList.remove('anotherclass');
-        this.selectedTrack = evt.target.parentElement;
-        this.selectedTrack.classList.add('anotherclass');
-        state.selectedTrack = track;
-      }
-    } else {
-      evt.target.parentElement.classList.add("anotherclass");
-      this.selectedTrack = evt.target.parentElement;
-      state.selectedTrack = track;
-    }
-  };
-
-  this.clearAllFunc = function (tableBody) {
-    tableBody.innerHTML = '';
-  }; //  event listeners //
-
-
-  this.addBtn.addEventListener('click', function () {
-    return _this.addTrackFunc(_this.searchInput.value);
-  });
-  this.clearAllBtn.addEventListener('click', function () {
-    return _this.clearAllFunc(_this.tableBodySelect);
-  });
-}
-
-var _default = PlayList;
-exports.default = _default;
-},{}],"../src/State/State.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function State() {
-  this.selectedTrack = null;
-}
-
-var _default = State;
-exports.default = _default;
-},{}],"../node_modules/wavesurfer.js/dist/wavesurfer.js":[function(require,module,exports) {
+},{"../../node_modules/precision-inputs/css/precision-inputs.fl-controls.css":"../node_modules/precision-inputs/css/precision-inputs.fl-controls.css","precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js"}],"../node_modules/wavesurfer.js/dist/wavesurfer.js":[function(require,module,exports) {
 var define;
 /*!
  * wavesurfer.js 4.1.1 (2020-09-25)
@@ -8075,6 +7886,216 @@ module.exports = exports.default;
 /******/ });
 });
 
+},{}],"../src/Deck/Deck.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _soundcloudAudio = _interopRequireDefault(require("soundcloud-audio"));
+
+var _precisionInputs = require("../../node_modules/precision-inputs/common/precision-inputs.fl-controls");
+
+var _KnobCreate = _interopRequireDefault(require("../KnobCreate/KnobCreate"));
+
+var _wavesurfer = _interopRequireDefault(require("wavesurfer.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
+// SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
+function Deck(deckNumberString, state) {
+  this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015'; //  Internal state   //
+
+  this.loadedTrack = null; //  instantiating wavesurfer    //
+
+  this.wavesurfer = _wavesurfer.default.create({
+    container: "#waveform".concat(deckNumberString),
+    waveColor: 'violet',
+    progressColor: 'purple'
+  });
+  this.wavesurfer.zoom(200); //using soundcloud dependancy 
+
+  this.scPlayer = new _soundcloudAudio.default('72e56a72d70b611ec8bcab7b2faf1015'); //instantiating web audio API audioContext
+
+  this.audioContext = new AudioContext(); //avoiding CORS error
+
+  this.scPlayer.audio.crossOrigin = 'anonymous'; //connecting soundcloud player html element to audioContext
+
+  this.startNode = this.audioContext.createMediaElementSource(this.scPlayer.audio); //instantiating eq nodes
+
+  this.lowShelf = this.wavesurfer.backend.ac.createBiquadFilter();
+  this.lowShelf.type = 'lowshelf';
+  this.lowShelf.frequency.value = 300;
+  this.midBand = this.wavesurfer.backend.ac.createBiquadFilter();
+  this.midBand.type = 'peaking';
+  this.midBand.frequency.value = 1000;
+  this.highBand = this.wavesurfer.backend.ac.createBiquadFilter();
+  this.highBand.type = 'highshelf';
+  this.highBand.frequency.value = 1000;
+  this.lowPass = this.wavesurfer.backend.ac.createBiquadFilter();
+  this.lowPass.type = 'lowpass';
+  this.lowPass.frequency.value = 24000;
+  this.lowPass.Q.value = 0;
+  this.highPass = this.wavesurfer.backend.ac.createBiquadFilter();
+  this.highPass.type = 'highpass';
+  this.filterArray = [this.lowShelf, this.midBand, this.highBand, this.lowPass, this.highPass]; //routing nodes
+  // this.wavesurfer.backend.setFilter(this.lowShelf);
+  // this.wavesurfer.backend.setFilter(this.midBand);
+  // this.wavesurfer.backend.setFilter(this.highBand);
+  // this.wavesurfer.backend.setFilter(this.lowPass);
+  // this.wavesurfer.backend.setFilter(this.highPass);
+
+  this.wavesurfer.backend.setFilters(this.filterArray); // this.startNode.connect(this.lowShelf);
+  // this.lowShelf.connect(this.midBand);
+  // this.midBand.connect(this.highBand);
+  // this.highBand.connect(this.lowPass);
+  // this.lowPass.connect(this.highPass);
+  // this.highPass.connect(this.audioContext.destination);
+  // Methods
+
+  this.playFunc = function () {
+    var _this = this;
+
+    this.audioContext.resume().then(function () {
+      // this.scPlayer.play({
+      //     // streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
+      //     // streamUrl: "https://api.soundcloud.com/tracks/774880408/stream"
+      //     streamUrl: `${this.loadedTrack.uri}/stream`
+      //     });
+      _this.wavesurfer.play();
+    });
+  };
+
+  this.pauseFunc = function () {
+    this.wavesurfer.pause(); // this.startNode.mediaElement.playbackRate = 2
+  };
+
+  this.stopFunc = function () {
+    this.wavesurfer.stop();
+    console.log('stoppressed');
+  };
+
+  this.loadTrackFunc = function () {
+    this.loadedTrack = state.selectedTrack;
+    var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
+    console.log(this.wavesurfer);
+    this.wavesurfer.load(mp3Link);
+  }; // instantiating knobs
+
+
+  this.highKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-high"), this.highBand);
+  this.midKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-mid"), this.midBand);
+  this.lowShelfKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-low"), this.lowShelf);
+  this.filterKnob = new _KnobCreate.default(".deck".concat(deckNumberString, "-eq-filter"), this.lowPass, this.highPass); // Selectors
+
+  this.playBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-play"));
+  this.pauseBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-pause"));
+  this.stopBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-stop"));
+  this.loadTrackBtn = document.querySelector(".deck".concat(deckNumberString, "-panel .loadBtn")); //  event listeners
+
+  this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
+  this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
+  this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
+  this.stopBtn.addEventListener('click', this.stopFunc.bind(this), false);
+}
+
+var _default = Deck;
+exports.default = _default;
+},{"soundcloud-audio":"../node_modules/soundcloud-audio/index.js","../../node_modules/precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js","../KnobCreate/KnobCreate":"../src/KnobCreate/KnobCreate.js","wavesurfer.js":"../node_modules/wavesurfer.js/dist/wavesurfer.js"}],"../src/PlayList/PlayList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function PlayList(deck, state) {
+  var _this = this;
+
+  //  state   //
+  this.selectedTrack = null; //  Selectors   //
+
+  this.searchInput = document.querySelector('.search-input');
+  this.addBtn = document.querySelector('.addbtn');
+  this.clearAllBtn = document.querySelector('.clearbtn');
+  this.tableBodySelect = document.querySelector('.tablebody'); //  Methods //
+
+  this.addTrackFunc = function (url) {
+    var self = this;
+    deck.scPlayer.resolve(url, function (track) {
+      self.trCreateFunc(track);
+    });
+  };
+
+  this.trCreateFunc = function (track) {
+    var self = this;
+    var tableRow = document.createElement('tr');
+    tableRow.id = document.querySelectorAll('tr').length - 1;
+    tableRow.addEventListener('click', function (e) {
+      self.selectTrFunc(e, track);
+    });
+    tableRow.innerHTML = "\n        \n        <td> <img style=\"max-height: 40px;\" src=".concat(track.artwork_url, "></img> </td>\n        <td>").concat(track.title, "</td>\n        <td>").concat(track.user.username, "</td>\n        <td>").concat(track.genre, "</td>\n        <td>").concat(this.millisecondConvert(track.duration), "</td>\n        <td>").concat(track.release_year, "</td>\n        \n        ");
+    this.tableBodySelect.appendChild(tableRow);
+  };
+
+  this.millisecondConvert = function (millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = (millis % 60000 / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  };
+
+  this.selectTrFunc = function (evt, track) {
+    // console.log(track)
+    if (this.selectedTrack) {
+      if (evt.target.parentElement.id === this.selectedTrack.id) {
+        this.selectedTrack.classList.remove('anotherclass');
+        this.selectedTrack = null;
+        state.selectedTrack = null;
+      } else {
+        this.selectedTrack.classList.remove('anotherclass');
+        this.selectedTrack = evt.target.parentElement;
+        this.selectedTrack.classList.add('anotherclass');
+        state.selectedTrack = track;
+      }
+    } else {
+      evt.target.parentElement.classList.add("anotherclass");
+      this.selectedTrack = evt.target.parentElement;
+      state.selectedTrack = track;
+    }
+  };
+
+  this.clearAllFunc = function (tableBody) {
+    tableBody.innerHTML = '';
+  }; //  event listeners //
+
+
+  this.addBtn.addEventListener('click', function () {
+    return _this.addTrackFunc(_this.searchInput.value);
+  });
+  this.clearAllBtn.addEventListener('click', function () {
+    return _this.clearAllFunc(_this.tableBodySelect);
+  });
+}
+
+var _default = PlayList;
+exports.default = _default;
+},{}],"../src/State/State.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function State() {
+  this.selectedTrack = null;
+}
+
+var _default = State;
+exports.default = _default;
 },{}],"../src/app.js":[function(require,module,exports) {
 "use strict";
 
@@ -8099,20 +8120,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
-  var state = new _State.default();
-
-  this.functiontest = function () {
-    var wavesurfer = _wavesurfer.default.create({
-      container: '#waveform',
-      waveColor: 'violet',
-      progressColor: 'purple'
-    });
-  }; //   var wavesurfer = WaveSurfer.create({
+  var state = new _State.default(); // this.functiontest = function(){
+  //   // var wavesurfer = WaveSurfer.create({
+  //   //     container: '#waveform',
+  //   //     waveColor: 'violet',
+  //   //     progressColor: 'purple'
+  //   // });
+  // }
+  // const wavesurfer = WaveSurfer.create({
+  //   container: '#waveform',
+  //   waveColor: 'red',
+  //   progressColor: 'purple'
+  // });
+  // wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
+  //   var wavesurfer = WaveSurfer.create({
   //     container: '#waveform',
   //     waveColor: 'violet',
   //     progressColor: 'purple'
   // });
-
 
   var deck1 = new _Deck.default('1', state);
   var deck2 = new _Deck.default('2', state);
@@ -8149,7 +8174,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50335" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59029" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
