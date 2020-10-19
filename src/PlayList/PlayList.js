@@ -38,6 +38,12 @@ function PlayList (deck, state) {
     }
 
 
+    this.dragStartFunc = function(e, track){
+
+        state.selectedTrack = track
+        // e.dataTransfer.setData("track", track);
+    }
+
 
 
     this.trCreateFunc = function(track) {
@@ -46,7 +52,15 @@ function PlayList (deck, state) {
 
         const tableRow = document.createElement('tr');
 
+        tableRow.setAttribute('draggable', true);
+
         tableRow.id =document.querySelectorAll('tr').length - 1;
+
+        tableRow.addEventListener('dragstart', function(e){
+
+            self.dragStartFunc (e, track)
+
+        })
 
         tableRow.addEventListener('click', function(e){
 

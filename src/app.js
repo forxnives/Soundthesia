@@ -13,6 +13,9 @@ import WaveSurfer from 'wavesurfer.js';
 // SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
 
 
+
+
+
 document.addEventListener('DOMContentLoaded', init, false);
 
 
@@ -65,6 +68,7 @@ function init(){
   
 
   // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
+
 
   
 

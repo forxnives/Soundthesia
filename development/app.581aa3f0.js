@@ -9605,8 +9605,8 @@ function Deck(deckNumberString, state) {
   //     console.error(err);
   // }}
   // );
-  // this.source = this.audioCtx.createBufferSource();
-  // console.log(this.source);
+
+  this.source = this.audioCtx.createBufferSource(); // console.log(this.source);
   // this.scriptNode = this.audioCtx.createScriptProcessor(4096, 1, 1);
   // console.log(this.scriptNode.bufferSize);
   // this.scriptNode.connect(this.audioCtx.destination);
@@ -9664,6 +9664,7 @@ function Deck(deckNumberString, state) {
 
   this.updateBPM = function (bpm) {
     this.bpmTxt.innerText = bpm;
+    this.detectedBPM = bpm;
   };
 
   this.loadTrackFunc = function () {
@@ -9695,6 +9696,25 @@ function Deck(deckNumberString, state) {
         console.error(err);
       }
     });
+  };
+
+  this.tempoFunc = function (e) {
+    // console.log(e.target.value/1000);
+    var newBPM = e.target.value / 1000 * this.detectedBPM;
+    this.wavesurfer.backend.setPlaybackRate(e.target.value / 1000);
+    this.bpmTxt.innerText = newBPM.toFixed(2);
+  };
+
+  this.onDragFunc = function (e) {
+    console.log('dragging');
+    e.preventDefault();
+  };
+
+  this.onDropFunc = function (e) {
+    e.preventDefault(); // let data = e.dataTransfer.getData("track");
+    // ev.target.appendChild(document.getElementById(data));
+
+    this.loadTrackFunc();
   }; // instantiating knobs
 
 
@@ -9707,12 +9727,18 @@ function Deck(deckNumberString, state) {
   this.pauseBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-pause"));
   this.stopBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-stop"));
   this.loadTrackBtn = document.querySelector(".deck".concat(deckNumberString, "-panel .loadBtn"));
-  this.bpmTxt = document.getElementById("bpm".concat(deckNumberString)); //  event listeners
+  this.bpmTxt = document.getElementById("bpm".concat(deckNumberString));
+  this.tempoSLider = document.getElementById("tempo".concat(deckNumberString));
+  this.container = document.querySelector(".deck".concat(deckNumberString, "-container")); // this.container.setAttribute('ondragover', this.onDragFunc )
+  //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
   this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
   this.stopBtn.addEventListener('click', this.stopFunc.bind(this), false);
+  this.tempoSLider.addEventListener('input', this.tempoFunc.bind(this), false);
+  this.container.addEventListener('dragover', this.onDragFunc.bind(this), false);
+  this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
 }
 
 var _default = Deck;
@@ -9743,10 +9769,18 @@ function PlayList(deck, state) {
     });
   };
 
+  this.dragStartFunc = function (e, track) {
+    state.selectedTrack = track; // e.dataTransfer.setData("track", track);
+  };
+
   this.trCreateFunc = function (track) {
     var self = this;
     var tableRow = document.createElement('tr');
+    tableRow.setAttribute('draggable', true);
     tableRow.id = document.querySelectorAll('tr').length - 1;
+    tableRow.addEventListener('dragstart', function (e) {
+      self.dragStartFunc(e, track);
+    });
     tableRow.addEventListener('click', function (e) {
       self.selectTrFunc(e, track);
     });
@@ -9887,7 +9921,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49593" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50575" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

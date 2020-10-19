@@ -77,10 +77,6 @@ function Deck (deckNumberString, state) {
     this.filterArray = [this.lowShelf, this.midBand, this.highBand, this.lowPass, this.highPass];
 
 
-
-    
-
-
     //routing nodes
 
     // this.wavesurfer.backend.setFilter(this.lowShelf);
@@ -119,11 +115,7 @@ function Deck (deckNumberString, state) {
 
 
 
-
-
-
-
-    // this.source = this.audioCtx.createBufferSource();
+    this.source = this.audioCtx.createBufferSource();
 
 
 
@@ -138,21 +130,12 @@ function Deck (deckNumberString, state) {
     // this.source.connect(this.audioCtx.destination);
 
 
-
-
-
     // Set the scriptProcessorNode to get PCM data in real time
     // this.scriptProcessorNode = this.wavesurfer.backend.createScriptNode(4096, 1, 1);
 
     // console.log(this.wavesurfer.backend.getAudioContext())
 
     // Connect everythings together
-
-
-
-
-
-
 
 
     // this.onAudioProcess = new RealTimeBPMAnalyzer({
@@ -177,9 +160,6 @@ function Deck (deckNumberString, state) {
     //     this.onAudioProcess.analyze(e);
 
     // };
-
-
-
 
 
     // this.startNode.connect(this.lowShelf);
@@ -229,7 +209,10 @@ function Deck (deckNumberString, state) {
     };
 
     this.updateBPM = function(bpm) {
+        
         this.bpmTxt.innerText = bpm;
+        this.detectedBPM = bpm;
+
     }
 
 
@@ -247,7 +230,6 @@ function Deck (deckNumberString, state) {
 
         let ctx = this.wavesurfer.backend.getAudioContext();
         // console.log(ctx);
-
 
 
                 // Fetch some audio file
@@ -272,12 +254,29 @@ function Deck (deckNumberString, state) {
         }}
         );
 
-
-
-
-
-
     };
+
+
+    this.tempoFunc = function(e) {
+        // console.log(e.target.value/1000);
+
+        let newBPM = e.target.value/1000 * this.detectedBPM;
+
+        this.wavesurfer.backend.setPlaybackRate(e.target.value/1000);
+        this.bpmTxt.innerText= newBPM.toFixed(2);
+    }
+
+    this.onDragFunc = function(e) {
+        console.log('dragging')
+        e.preventDefault()
+    }
+
+    this.onDropFunc = function(e) {
+        e.preventDefault();
+        // let data = e.dataTransfer.getData("track");
+        // ev.target.appendChild(document.getElementById(data));
+        this.loadTrackFunc()
+      }
 
 
     // instantiating knobs
@@ -300,6 +299,14 @@ function Deck (deckNumberString, state) {
 
     this.bpmTxt = document.getElementById(`bpm${deckNumberString}`);
 
+    this.tempoSLider = document.getElementById(`tempo${deckNumberString}`);
+
+    this.container = document.querySelector(`.deck${deckNumberString}-container`);
+
+    // this.container.setAttribute('ondragover', this.onDragFunc )
+
+
+    
 
 
     //  event listeners
@@ -311,6 +318,12 @@ function Deck (deckNumberString, state) {
     this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
 
     this.stopBtn.addEventListener('click', this.stopFunc.bind(this), false);
+
+    this.tempoSLider.addEventListener('input', this.tempoFunc.bind(this), false);
+
+    this.container.addEventListener('dragover', this.onDragFunc.bind(this), false);
+
+    this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
 
 
 
