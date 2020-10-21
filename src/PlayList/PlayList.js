@@ -35,6 +35,8 @@ function PlayList (deck, state) {
 
             } )
 
+        this.searchInput.value = '';
+
     }
 
 

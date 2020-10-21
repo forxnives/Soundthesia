@@ -739,6 +739,8 @@ header {
 
 }
 
+
+
 .loadBtn-container {
     position: relative;
 
@@ -788,16 +790,38 @@ header {
     width: 100%;
     border: 2px solid black;
     position: relative;
-        background: #bfeecc;
+    background: #bfeecc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .waveform-position{
         position: absolute;
         width: 100%;
         bottom: 0px;
+    }
+
+    .waveform-loading1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
 
     }
 
+    .waveform-loading2{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .invisible {
+        visibility: hidden;
+    }
+
+
 
     
 }
+
+

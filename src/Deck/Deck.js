@@ -3,19 +3,18 @@ import SoundCloudAudio from 'soundcloud-audio';
 import { FLStandardKnob } from '../../node_modules/precision-inputs/common/precision-inputs.fl-controls';
 import KnobCreate from '../KnobCreate/KnobCreate';
 import WaveSurfer from 'wavesurfer.js';
-// import RealTimeBPMAnalyzer from 'realtime-bpm-analyzer';
 import detect from 'bpm-detective';
 
+// import loadingSVG from '../trackloadingsvg.svg';
 
 
-// SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
-// SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
 
 
 
 function Deck (deckNumberString, state) {
 
     this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
+    this.SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
 
     //  Internal state   //
     this.loadedTrack = null;
@@ -30,13 +29,9 @@ function Deck (deckNumberString, state) {
     });
 
     this.wavesurfer.zoom(200)
-
     
-
-
     //using soundcloud dependancy 
     this.scPlayer = new SoundCloudAudio('72e56a72d70b611ec8bcab7b2faf1015');
-
 
     //instantiating web audio API audioContext
     this.audioContext = new AudioContext();
@@ -44,14 +39,8 @@ function Deck (deckNumberString, state) {
     //avoiding CORS error
     this.scPlayer.audio.crossOrigin = 'anonymous';
 
-    //connecting soundcloud player html element to audioContext
-    // this.startNode = this.audioContext.createMediaElementSource(this.scPlayer.audio);
-
-
-
 
     //instantiating eq nodes
-
 
     this.lowShelf = this.wavesurfer.backend.ac.createBiquadFilter();
     this.lowShelf.type = 'lowshelf';
@@ -64,7 +53,6 @@ function Deck (deckNumberString, state) {
     this.highBand = this.wavesurfer.backend.ac.createBiquadFilter();
     this.highBand.type = 'highshelf';
     this.highBand.frequency.value = 1000;
-
 
     this.lowPass = this.wavesurfer.backend.ac.createBiquadFilter();
     this.lowPass.type = 'lowpass';
@@ -79,97 +67,27 @@ function Deck (deckNumberString, state) {
 
     //routing nodes
 
-    // this.wavesurfer.backend.setFilter(this.lowShelf);
-    // this.wavesurfer.backend.setFilter(this.midBand);
-    // this.wavesurfer.backend.setFilter(this.highBand);
-    // this.wavesurfer.backend.setFilter(this.lowPass);
-    // this.wavesurfer.backend.setFilter(this.highPass);
 
     this.wavesurfer.backend.setFilters(this.filterArray);
 
     this.audioCtx = this.wavesurfer.backend.getAudioContext();
 
-
-
-
-    //     // Fetch some audio file
-    // fetch('https://api.soundcloud.com/tracks/388802322/stream?client_id=72e56a72d70b611ec8bcab7b2faf1015')
-    // // Get response as ArrayBuffer
-    // .then(response => response.arrayBuffer())
-    // .then(buffer => {
-    // // Decode audio into an AudioBuffer
-    // return new Promise((resolve, reject) => {
-    //     this.audioContext.decodeAudioData(buffer, resolve, reject);
-    // });
-    // })
-    // // Run detection
-    // .then(buffer => {
-    // try {
-    //     const bpm = detect(buffer);
-    //     alert(`Detected BPM: ${ bpm }`);
-    // } catch (err) {
-    //     console.error(err);
-    // }}
-    // );
-
-
-
-
     this.source = this.audioCtx.createBufferSource();
 
 
 
+    this.wavesurfer.on('loading', function (e) {
 
-    // console.log(this.source);
+        document.getElementById(`loading-txt${deckNumberString}`).innerText = e
 
-    // this.scriptNode = this.audioCtx.createScriptProcessor(4096, 1, 1);
-    // console.log(this.scriptNode.bufferSize);
+    });
 
-    // this.scriptNode.connect(this.audioCtx.destination);
-    // this.source.connect(this.scriptNode);
-    // this.source.connect(this.audioCtx.destination);
+    this.wavesurfer.on('ready', function(e) {
+        // this.loadingDiv.classList.add('invisible');
+        document.querySelector(`.waveform-loading${deckNumberString}`).classList.add('invisible');
+        document.getElementById(`loading-txt${deckNumberString}`).innerText = 'Loading'
+    })
 
-
-    // Set the scriptProcessorNode to get PCM data in real time
-    // this.scriptProcessorNode = this.wavesurfer.backend.createScriptNode(4096, 1, 1);
-
-    // console.log(this.wavesurfer.backend.getAudioContext())
-
-    // Connect everythings together
-
-
-    // this.onAudioProcess = new RealTimeBPMAnalyzer({
-    //     scriptNode: {
-    //         bufferSize: 4096,
-    //         numberOfInputChannels: 1,
-    //         numberOfOutputChannels: 1
-    //     },
-    //     pushTime: 2000,
-    //     pushCallback: (err, bpm) => {
-    //         console.log('bpm', bpm);
-    //     }
-    // });
-
-
-    // Attach realTime function to audioprocess event.inputBuffer (AudioBuffer)
-
-    // console.log(this.scriptNode)
-
-
-    // this.scriptNode.onaudioprocess = (e) => {
-    //     this.onAudioProcess.analyze(e);
-
-    // };
-
-
-    // this.startNode.connect(this.lowShelf);
-    // this.lowShelf.connect(this.midBand);
-    // this.midBand.connect(this.highBand);
-
-    // this.highBand.connect(this.lowPass);
-
-    // this.lowPass.connect(this.highPass);
-    // this.highPass.connect(this.audioContext.destination);
 
 
 
@@ -177,15 +95,7 @@ function Deck (deckNumberString, state) {
 
     this.playFunc = function () {
 
-
         this.audioContext.resume().then(() => {
-
-
-            // this.scPlayer.play({
-            //     // streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
-            //     // streamUrl: "https://api.soundcloud.com/tracks/774880408/stream"
-            //     streamUrl: `${this.loadedTrack.uri}/stream`
-            //     });
 
             this.wavesurfer.play()
             
@@ -197,8 +107,6 @@ function Deck (deckNumberString, state) {
     this.pauseFunc = function () {
 
         this.wavesurfer.pause()
-
-        // this.startNode.mediaElement.playbackRate = 2
 
     };
 
@@ -215,6 +123,13 @@ function Deck (deckNumberString, state) {
 
     }
 
+    this.loadingAnimateFunc = function() {
+
+        this.loadingDiv.classList.remove('invisible');
+
+
+    }
+
 
     this.loadTrackFunc = function() {
 
@@ -222,14 +137,11 @@ function Deck (deckNumberString, state) {
 
         const mp3Link = `${this.loadedTrack.stream_url}?client_id=${this.SCKEY2}`
 
-        console.log(mp3Link)
+        this.loadingAnimateFunc()
 
         this.wavesurfer.load(mp3Link);
 
-
-
         let ctx = this.wavesurfer.backend.getAudioContext();
-        // console.log(ctx);
 
 
                 // Fetch some audio file
@@ -258,7 +170,6 @@ function Deck (deckNumberString, state) {
 
 
     this.tempoFunc = function(e) {
-        // console.log(e.target.value/1000);
 
         let newBPM = e.target.value/1000 * this.detectedBPM;
 
@@ -273,8 +184,7 @@ function Deck (deckNumberString, state) {
 
     this.onDropFunc = function(e) {
         e.preventDefault();
-        // let data = e.dataTransfer.getData("track");
-        // ev.target.appendChild(document.getElementById(data));
+
         this.loadTrackFunc()
       }
 
@@ -303,10 +213,8 @@ function Deck (deckNumberString, state) {
 
     this.container = document.querySelector(`.deck${deckNumberString}-container`);
 
-    // this.container.setAttribute('ondragover', this.onDragFunc )
+    this.loadingDiv = document.querySelector(`.waveform-loading${deckNumberString}`);
 
-
-    
 
 
     //  event listeners

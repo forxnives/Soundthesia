@@ -716,11 +716,47 @@ header {
   border: 2px solid black;
   position: relative;
   background: #bfeecc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .waveform-contain .waveform-position {
   position: absolute;
   width: 100%;
   bottom: 0px;
+}
+.waveform-contain .waveform-loading1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.waveform-contain .waveform-loading2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.waveform-contain .invisible {
+  visibility: hidden;
+}
+
+label::after {
+  font-size: 100px;
+}
+
+#toggle:checked ~ label::after {
+  font-size: 50px;
+}
+
+label {
+  background: #A5D6A7;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -100vw;
+  /* Note, you may want to position the checkbox over top the label and set the opacity to zero instead. It can be better for accessibilty on some touch devices for discoverability. */
 }
 .knob-input__container{position:relative}.knob-input__visual{pointer-events:none;width:100%;height:100%}.knob-input__input{cursor:-webkit-grab;cursor:grab;position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}body.knob-input__drag-active,body.knob-input__drag-active *{cursor:-webkit-grabbing!important;cursor:grabbing!important}.fl-standard-knob .fl-standard-knob__svg{overflow:visible}.fl-standard-knob.drag-active .fl-standard-knob__dial,.fl-standard-knob:hover .fl-standard-knob__dial{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob.drag-active .fl-standard-knob__dial-highlight,.fl-standard-knob:hover .fl-standard-knob__dial-highlight{opacity:.05}.fl-standard-knob.focus-active .fl-standard-knob__focus-indicator{opacity:.8}.fl-standard-knob__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial-highlight{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial .fl-reactive-grip-dial__svg{overflow:visible}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__guide-ring,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__guide-ring{-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__chrome,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__chrome{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.focus-active .fl-reactive-grip-dial__focus-indicator{opacity:.8}.fl-reactive-grip-dial__guide-ring{-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__chrome{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}
 /*# sourceMappingURL=/app.581aa3f0.css.map */

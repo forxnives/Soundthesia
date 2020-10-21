@@ -9539,11 +9539,10 @@ var _bpmDetective = _interopRequireDefault(require("bpm-detective"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import RealTimeBPMAnalyzer from 'realtime-bpm-analyzer';
-// SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
-// SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
+// import loadingSVG from '../trackloadingsvg.svg';
 function Deck(deckNumberString, state) {
-  this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015'; //  Internal state   //
+  this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
+  this.SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087'; //  Internal state   //
 
   this.loadedTrack = null;
   this.detectedBPM = null; //  instantiating wavesurfer    //
@@ -9559,9 +9558,7 @@ function Deck(deckNumberString, state) {
 
   this.audioContext = new AudioContext(); //avoiding CORS error
 
-  this.scPlayer.audio.crossOrigin = 'anonymous'; //connecting soundcloud player html element to audioContext
-  // this.startNode = this.audioContext.createMediaElementSource(this.scPlayer.audio);
-  //instantiating eq nodes
+  this.scPlayer.audio.crossOrigin = 'anonymous'; //instantiating eq nodes
 
   this.lowShelf = this.wavesurfer.backend.ac.createBiquadFilter();
   this.lowShelf.type = 'lowshelf';
@@ -9579,82 +9576,29 @@ function Deck(deckNumberString, state) {
   this.highPass = this.wavesurfer.backend.ac.createBiquadFilter();
   this.highPass.type = 'highpass';
   this.filterArray = [this.lowShelf, this.midBand, this.highBand, this.lowPass, this.highPass]; //routing nodes
-  // this.wavesurfer.backend.setFilter(this.lowShelf);
-  // this.wavesurfer.backend.setFilter(this.midBand);
-  // this.wavesurfer.backend.setFilter(this.highBand);
-  // this.wavesurfer.backend.setFilter(this.lowPass);
-  // this.wavesurfer.backend.setFilter(this.highPass);
 
   this.wavesurfer.backend.setFilters(this.filterArray);
-  this.audioCtx = this.wavesurfer.backend.getAudioContext(); //     // Fetch some audio file
-  // fetch('https://api.soundcloud.com/tracks/388802322/stream?client_id=72e56a72d70b611ec8bcab7b2faf1015')
-  // // Get response as ArrayBuffer
-  // .then(response => response.arrayBuffer())
-  // .then(buffer => {
-  // // Decode audio into an AudioBuffer
-  // return new Promise((resolve, reject) => {
-  //     this.audioContext.decodeAudioData(buffer, resolve, reject);
-  // });
-  // })
-  // // Run detection
-  // .then(buffer => {
-  // try {
-  //     const bpm = detect(buffer);
-  //     alert(`Detected BPM: ${ bpm }`);
-  // } catch (err) {
-  //     console.error(err);
-  // }}
-  // );
-
-  this.source = this.audioCtx.createBufferSource(); // console.log(this.source);
-  // this.scriptNode = this.audioCtx.createScriptProcessor(4096, 1, 1);
-  // console.log(this.scriptNode.bufferSize);
-  // this.scriptNode.connect(this.audioCtx.destination);
-  // this.source.connect(this.scriptNode);
-  // this.source.connect(this.audioCtx.destination);
-  // Set the scriptProcessorNode to get PCM data in real time
-  // this.scriptProcessorNode = this.wavesurfer.backend.createScriptNode(4096, 1, 1);
-  // console.log(this.wavesurfer.backend.getAudioContext())
-  // Connect everythings together
-  // this.onAudioProcess = new RealTimeBPMAnalyzer({
-  //     scriptNode: {
-  //         bufferSize: 4096,
-  //         numberOfInputChannels: 1,
-  //         numberOfOutputChannels: 1
-  //     },
-  //     pushTime: 2000,
-  //     pushCallback: (err, bpm) => {
-  //         console.log('bpm', bpm);
-  //     }
-  // });
-  // Attach realTime function to audioprocess event.inputBuffer (AudioBuffer)
-  // console.log(this.scriptNode)
-  // this.scriptNode.onaudioprocess = (e) => {
-  //     this.onAudioProcess.analyze(e);
-  // };
-  // this.startNode.connect(this.lowShelf);
-  // this.lowShelf.connect(this.midBand);
-  // this.midBand.connect(this.highBand);
-  // this.highBand.connect(this.lowPass);
-  // this.lowPass.connect(this.highPass);
-  // this.highPass.connect(this.audioContext.destination);
-  // Methods
+  this.audioCtx = this.wavesurfer.backend.getAudioContext();
+  this.source = this.audioCtx.createBufferSource();
+  this.wavesurfer.on('loading', function (e) {
+    document.getElementById("loading-txt".concat(deckNumberString)).innerText = e;
+  });
+  this.wavesurfer.on('ready', function (e) {
+    // this.loadingDiv.classList.add('invisible');
+    document.querySelector(".waveform-loading".concat(deckNumberString)).classList.add('invisible');
+    document.getElementById("loading-txt".concat(deckNumberString)).innerText = 'Loading';
+  }); // Methods
 
   this.playFunc = function () {
     var _this = this;
 
     this.audioContext.resume().then(function () {
-      // this.scPlayer.play({
-      //     // streamUrl: 'https://api.soundcloud.com/tracks/185533328/stream'
-      //     // streamUrl: "https://api.soundcloud.com/tracks/774880408/stream"
-      //     streamUrl: `${this.loadedTrack.uri}/stream`
-      //     });
       _this.wavesurfer.play();
     });
   };
 
   this.pauseFunc = function () {
-    this.wavesurfer.pause(); // this.startNode.mediaElement.playbackRate = 2
+    this.wavesurfer.pause();
   };
 
   this.stopFunc = function () {
@@ -9667,15 +9611,18 @@ function Deck(deckNumberString, state) {
     this.detectedBPM = bpm;
   };
 
+  this.loadingAnimateFunc = function () {
+    this.loadingDiv.classList.remove('invisible');
+  };
+
   this.loadTrackFunc = function () {
     var _this2 = this;
 
     this.loadedTrack = state.selectedTrack;
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
-    console.log(mp3Link);
+    this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
-    var ctx = this.wavesurfer.backend.getAudioContext(); // console.log(ctx);
-    // Fetch some audio file
+    var ctx = this.wavesurfer.backend.getAudioContext(); // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
     .then(function (response) {
@@ -9699,7 +9646,6 @@ function Deck(deckNumberString, state) {
   };
 
   this.tempoFunc = function (e) {
-    // console.log(e.target.value/1000);
     var newBPM = e.target.value / 1000 * this.detectedBPM;
     this.wavesurfer.backend.setPlaybackRate(e.target.value / 1000);
     this.bpmTxt.innerText = newBPM.toFixed(2);
@@ -9711,9 +9657,7 @@ function Deck(deckNumberString, state) {
   };
 
   this.onDropFunc = function (e) {
-    e.preventDefault(); // let data = e.dataTransfer.getData("track");
-    // ev.target.appendChild(document.getElementById(data));
-
+    e.preventDefault();
     this.loadTrackFunc();
   }; // instantiating knobs
 
@@ -9729,8 +9673,8 @@ function Deck(deckNumberString, state) {
   this.loadTrackBtn = document.querySelector(".deck".concat(deckNumberString, "-panel .loadBtn"));
   this.bpmTxt = document.getElementById("bpm".concat(deckNumberString));
   this.tempoSLider = document.getElementById("tempo".concat(deckNumberString));
-  this.container = document.querySelector(".deck".concat(deckNumberString, "-container")); // this.container.setAttribute('ondragover', this.onDragFunc )
-  //  event listeners
+  this.container = document.querySelector(".deck".concat(deckNumberString, "-container"));
+  this.loadingDiv = document.querySelector(".waveform-loading".concat(deckNumberString)); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9767,6 +9711,7 @@ function PlayList(deck, state) {
     deck.scPlayer.resolve(url, function (track) {
       self.trCreateFunc(track);
     });
+    this.searchInput.value = '';
   };
 
   this.dragStartFunc = function (e, track) {
@@ -9921,7 +9866,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50575" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52889" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
