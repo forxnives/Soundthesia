@@ -113,7 +113,7 @@ function Deck (deckNumberString, state) {
     this.stopFunc = function () {
 
         this.wavesurfer.stop()
-        console.log('stoppressed')
+
     };
 
     this.updateBPM = function(bpm) {
@@ -186,7 +186,18 @@ function Deck (deckNumberString, state) {
         e.preventDefault();
 
         this.loadTrackFunc()
-      }
+    }
+
+
+    this.zoomModeFunc= function(e) {
+
+
+        if (e.target.checked){
+            this.wavesurfer.zoom(200);
+        }else {
+            this.wavesurfer.zoom(0);
+        }
+    }
 
 
     // instantiating knobs
@@ -215,6 +226,8 @@ function Deck (deckNumberString, state) {
 
     this.loadingDiv = document.querySelector(`.waveform-loading${deckNumberString}`);
 
+    this.zoomModeSelect = document.getElementById(`slide${deckNumberString}`);
+
 
 
     //  event listeners
@@ -233,6 +246,7 @@ function Deck (deckNumberString, state) {
 
     this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
 
+    this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false)
 
 
 }

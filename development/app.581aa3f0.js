@@ -9603,7 +9603,6 @@ function Deck(deckNumberString, state) {
 
   this.stopFunc = function () {
     this.wavesurfer.stop();
-    console.log('stoppressed');
   };
 
   this.updateBPM = function (bpm) {
@@ -9659,6 +9658,14 @@ function Deck(deckNumberString, state) {
   this.onDropFunc = function (e) {
     e.preventDefault();
     this.loadTrackFunc();
+  };
+
+  this.zoomModeFunc = function (e) {
+    if (e.target.checked) {
+      this.wavesurfer.zoom(200);
+    } else {
+      this.wavesurfer.zoom(0);
+    }
   }; // instantiating knobs
 
 
@@ -9674,7 +9681,8 @@ function Deck(deckNumberString, state) {
   this.bpmTxt = document.getElementById("bpm".concat(deckNumberString));
   this.tempoSLider = document.getElementById("tempo".concat(deckNumberString));
   this.container = document.querySelector(".deck".concat(deckNumberString, "-container"));
-  this.loadingDiv = document.querySelector(".waveform-loading".concat(deckNumberString)); //  event listeners
+  this.loadingDiv = document.querySelector(".waveform-loading".concat(deckNumberString));
+  this.zoomModeSelect = document.getElementById("slide".concat(deckNumberString)); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9683,6 +9691,7 @@ function Deck(deckNumberString, state) {
   this.tempoSLider.addEventListener('input', this.tempoFunc.bind(this), false);
   this.container.addEventListener('dragover', this.onDragFunc.bind(this), false);
   this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
+  this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false);
 }
 
 var _default = Deck;
@@ -9866,7 +9875,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55881" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58697" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
