@@ -26,7 +26,9 @@ function Deck (deckNumberString, state) {
     this.wavesurfer = WaveSurfer.create({
         container: `#waveform${deckNumberString}`,
         waveColor: 'violet',
-        progressColor: 'purple'
+        progressColor: 'purple',
+        hideScrollbar: true,
+        height: 112
     });
 
     this.wavesurfer.zoom(200)

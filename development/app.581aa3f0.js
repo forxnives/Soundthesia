@@ -9551,7 +9551,9 @@ function Deck(deckNumberString, state) {
   this.wavesurfer = _wavesurfer.default.create({
     container: "#waveform".concat(deckNumberString),
     waveColor: 'violet',
-    progressColor: 'purple'
+    progressColor: 'purple',
+    hideScrollbar: true,
+    height: 112
   });
   this.wavesurfer.zoom(200); //using soundcloud dependancy 
 
@@ -9876,7 +9878,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51802" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58697" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

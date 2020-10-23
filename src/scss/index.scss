@@ -17,6 +17,7 @@ body {
     grid-template-rows: 2vh 54vh 40vh;
     row-gap: 2vh;
     justify-items: center;
+    position: relative;
 
 }
 
@@ -35,17 +36,33 @@ header {
     border: 2px solid black;
     display: grid;
     grid-template-columns: 38% 24% 38%;
+    background-color: #9EA4A9;
 
+    
     .deck1 {
-
+        
         // border: 2px solid black;
+        clip-path: polygon(0 0, 100% 0%, 100% 70%, 80% 100%, 0 100%);
         height: 74%;
+        background-color: #4A505A;
         // display: flex;
         // justify-content: space-between;
 
         display: grid;
 
         grid-template-columns: 80px 5fr;
+
+        position: relative;
+
+        &-dummy {
+            position: absolute;
+            width: 99%;
+            height: 99%;
+            clip-path: polygon(0 0, 100% 0%, 100% 70%, 80% 100%, 0 100%);
+            background-color: white;
+            z-index: 0;
+
+        }
 
         &-panel {
 
@@ -65,7 +82,10 @@ header {
             &-transport {
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                // justify-content: center;
+                margin-left: 4vw;
+
+                z-index: 3;
 
                 .button{
 
@@ -242,7 +262,7 @@ header {
 
 
         &-deck1-vol {
-            border: 2px solid yellow;
+            // border: 2px solid yellow;
 
 
             position: relative;
@@ -477,6 +497,24 @@ header {
 
     .deck2{
 
+        position: relative;
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%, 0 70%);
+        background-color: #4A505A;
+        z-index: 0;
+
+
+        &-dummy {
+            position: absolute;
+            width: 99%;
+            height: 99%;
+            right: 0;
+            top: 0;
+            clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%, 0 70%);
+            background-color: white;
+            z-index: 0;
+
+        }
+
         // border: 2px solid black;
         height: 74%;
         // display: flex;
@@ -506,7 +544,9 @@ header {
             &-transport {
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: flex-end;
+                z-index: 1;
+                margin-right: 4vw;
 
 
                 .button{
@@ -754,7 +794,8 @@ header {
 
         margin: 0 5px;
         position: absolute;
-        right: 1vw;
+        top: 21vh;
+        // right: 1vw;
 
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
@@ -784,9 +825,18 @@ header {
 
     }
 
+    .load1 {
+        right: 2vw;
+    }
+
+    .load2 {
+        left: 2vw;
+    }
+
 }
 
 .waveform-contain {
+    box-shadow: #4a505a 0px 0px 0px 4px inset, #616976 0px 0px 0px 8px inset;
     height: 128px;
     width: 100%;
     // border: 2px solid black;
@@ -795,11 +845,17 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    // box-sizing: border-box;
+    z-index: 7;
+    overflow-y: hidden;
+    // height: 20%;
 
     .waveform-position{
         position: absolute;
-        width: 100%;
-        bottom: 0px;
+        width: 97%;
+        bottom: 8px;
+        overflow-x: hidden;
+
     }
 
     .waveform-loading1 {
@@ -826,17 +882,30 @@ header {
 
 .zoom-mode{
     display: flex;
-    justify-items: center;
+    // justify-items: center;
     align-items: center;
-    margin: 5px;
+    // margin: 0px 5px ;
+    // padding-bottom: 5px;
+    padding: 5px 5px;
+
+    background-color: grey;
+
+
 }
 
-.zoom-mode{
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    margin: 5px;
+.select1 {
+    justify-content: flex-end;
+    clip-path: polygon(45% 0, 100% 0%, 100% 100%, 60% 100%);
+    // border-right: 8px solid #4A505A;
+    
+
 }
+
+.select2 {
+    justify-content: flex-start;
+    clip-path: polygon(0 0, 60% 0%, 45% 100%, 0% 100%);
+}
+
 
 .slide1, .slide2 {
     width: 80px;
@@ -895,3 +964,23 @@ header {
   }
 
 
+// .svg-lines {
+//     position: absolute;
+//     // background-color: yellow;
+//     overflow: hidden;
+//     width: 100%;
+//     height: 100%;
+//     z-index: -20;
+// }
+
+// .svg-box {
+
+//     border: 1px solid black;
+//     width: 100%;
+//     height: 100%;
+
+
+    
+
+
+// }
