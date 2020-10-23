@@ -716,11 +716,98 @@ header {
   border: 2px solid black;
   position: relative;
   background: #bfeecc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .waveform-contain .waveform-position {
   position: absolute;
   width: 100%;
   bottom: 0px;
+}
+.waveform-contain .waveform-loading1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.waveform-contain .waveform-loading2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.waveform-contain .invisible {
+  visibility: hidden;
+}
+
+.zoom-mode {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.zoom-mode {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.slide1, .slide2 {
+  width: 80px;
+  height: 30px;
+  background: #333;
+  margin: 0px 5px;
+  position: relative;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slide1:after, .slide2:after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  height: 2px;
+  width: 52px;
+  background: #111;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slide1 label, .slide2 label {
+  display: block;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  position: absolute;
+  top: 4px;
+  z-index: 1;
+  left: 4px;
+  background: #fcfff4;
+  border-radius: 50px;
+  transition: all 0.4s ease;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+}
+.slide1 label:after, .slide2 label:after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: #333;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px black, 0px 1px 0px rgba(255, 255, 255, 0.9);
+}
+.slide1 input[type=checkbox], .slide2 input[type=checkbox] {
+  visibility: hidden;
+}
+.slide1 input[type=checkbox]:checked + label, .slide2 input[type=checkbox]:checked + label {
+  left: 54px;
+}
+.slide1 input[type=checkbox]:checked + label:after, .slide2 input[type=checkbox]:checked + label:after {
+  background: #27ae60;
+  /*activeColor*/
 }
 .knob-input__container{position:relative}.knob-input__visual{pointer-events:none;width:100%;height:100%}.knob-input__input{cursor:-webkit-grab;cursor:grab;position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}body.knob-input__drag-active,body.knob-input__drag-active *{cursor:-webkit-grabbing!important;cursor:grabbing!important}.fl-standard-knob .fl-standard-knob__svg{overflow:visible}.fl-standard-knob.drag-active .fl-standard-knob__dial,.fl-standard-knob:hover .fl-standard-knob__dial{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob.drag-active .fl-standard-knob__dial-highlight,.fl-standard-knob:hover .fl-standard-knob__dial-highlight{opacity:.05}.fl-standard-knob.focus-active .fl-standard-knob__focus-indicator{opacity:.8}.fl-standard-knob__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-standard-knob__dial-highlight{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial .fl-reactive-grip-dial__svg{overflow:visible}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__guide-ring,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__guide-ring{-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.drag-active .fl-reactive-grip-dial__chrome,.fl-reactive-grip-dial:hover .fl-reactive-grip-dial__chrome{-webkit-transform:scale(.9);transform:scale(.9);-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial.focus-active .fl-reactive-grip-dial__focus-indicator{opacity:.8}.fl-reactive-grip-dial__guide-ring{-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__focus-indicator{opacity:0;-webkit-transition:all .3s cubic-bezier(.39,.575,.565,1);transition:all .3s cubic-bezier(.39,.575,.565,1)}.fl-reactive-grip-dial__chrome{-webkit-transform-origin:20px 20px;transform-origin:20px 20px;-webkit-transition:all .6s cubic-bezier(.39,.575,.565,1);transition:all .6s cubic-bezier(.39,.575,.565,1)}
 /*# sourceMappingURL=/app.581aa3f0.css.map */
