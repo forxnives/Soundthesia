@@ -38,7 +38,7 @@ header {
 
     .deck1 {
 
-        border: 2px solid black;
+        // border: 2px solid black;
         height: 74%;
         // display: flex;
         // justify-content: space-between;
@@ -50,7 +50,7 @@ header {
         &-panel {
 
 
-            border: 2px solid purple;
+            // border: 2px solid purple;
             display: grid;
             grid-template-rows: 70% 1fr;
 
@@ -106,31 +106,31 @@ header {
             position: absolute;
 
             height: 100%;
-            border: 2px solid hotpink;
+            // border: 2px solid hotpink;
             width: 11vh;
             align-self: flex-end;
             left: 0%;
 
             &-high {
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
 
             &-mid{
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
 
             &-low {
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
 
             &-filter {
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
@@ -140,7 +140,7 @@ header {
 
         &-tempo {
 
-            border: 2px solid crimson;
+            // border: 2px solid crimson;
             // width: 100%;
             align-self: flex-end;
 
@@ -156,7 +156,7 @@ header {
 
                 position: absolute;
 
-                left: -122%;
+                left: -101%;
                 top: 43%;
             
 
@@ -253,7 +253,7 @@ header {
 
                 z-index: 300;
                 
-                left: -13%;
+                left: 0%;
                 top: 43%;
 
 
@@ -321,14 +321,14 @@ header {
 
 
         &-meters {
-            border: 2px solid purple;
+            // border: 2px solid purple;
             // height: 300px;
         }
 
 
         &-deck2-vol {
 
-            border: 2px solid fuchsia;
+            // border: 2px solid fuchsia;
             position: relative;
 
             .input-container {
@@ -337,7 +337,7 @@ header {
                 z-index: 300;
                 pointer-events: none;
 
-                left: -198%;
+                left: -200%;
                 top: 43%;
 
 
@@ -409,7 +409,7 @@ header {
 
 
         &-crossfader {
-            border: 2px solid green;
+            // border: 2px solid green;
             grid-column-start: 1;
             grid-column-end: 4;
 
@@ -477,7 +477,7 @@ header {
 
     .deck2{
 
-        border: 2px solid black;
+        // border: 2px solid black;
         height: 74%;
         // display: flex;
         // justify-content: space-between;
@@ -491,7 +491,7 @@ header {
         &-panel {
 
 
-            border: 2px solid purple;
+            // border: 2px solid purple;
             display: grid;
             grid-template-rows: 70% 1fr;
 
@@ -552,31 +552,32 @@ header {
             position: absolute;
 
             height: 100%;
-            border: 2px solid hotpink;
+            // border: 2px solid hotpink;
             width: 11vh;
             align-self: flex-end;
-            right: 0%;
+            right: 3%;
+            top: 1px;
 
             &-high {
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
 
             &-mid{
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
 
             &-low {
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
 
             &-filter {
-                border: 2px solid green;
+                // border: 2px solid green;
                 width: 100%;
                 height: 25%;
             }
@@ -587,7 +588,7 @@ header {
 
         &-tempo {
 
-            border: 2px solid crimson;
+            // border: 2px solid crimson;
             // width: 100%;
             align-self: flex-end;
 
@@ -685,7 +686,7 @@ header {
 .playlist-container {
 
     width: 95%;
-    border: 2px solid black;
+    // border: 2px solid black;
 }
 
 
@@ -788,7 +789,7 @@ header {
 .waveform-contain {
     height: 128px;
     width: 100%;
-    border: 2px solid black;
+    // border: 2px solid black;
     position: relative;
     background: #bfeecc;
     display: flex;

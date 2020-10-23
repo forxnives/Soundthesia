@@ -15,6 +15,7 @@ function Deck (deckNumberString, state) {
 
     this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
     this.SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
+    this.SCKEY3 = 'c92343835f607734d719d94afcb679d7';
 
     //  Internal state   //
     this.loadedTrack = null;
