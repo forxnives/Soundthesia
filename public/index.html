@@ -62,7 +62,7 @@
 
             <div class="deck1">
 
-              <div class="deck1-dummy">
+              <div onmousedown="return false" class="deck1-dummy">
                 <div class="zoom-mode select1">
                   <span>Overview</span>
                   <div class="slide1">  
@@ -198,7 +198,7 @@
 
                     <div class="input-container">
 
-                        <input class='range' type="range">
+                        <input id='deck1vol' min="0" max="1" value="1" step="0.01" class='range' type="range">
 
                     </div>
 
@@ -212,7 +212,7 @@
 
                     <div class="input-container">
 
-                        <input class='range ' type="range">
+                        <input id='deck2vol' min="0" max="1" value="1" step="0.01" class='range ' type="range">
 
                     </div>
 
@@ -245,7 +245,7 @@
 
                 <div class="mixer-crossfader">
 
-                    <input type="range">    
+                    <input id="crossfader" type="range">    
 
                 </div>
 
@@ -280,7 +280,7 @@
   
               <div class="deck2">
 
-                <div class="deck2-dummy">
+                <div onmousedown="return false" class="deck2-dummy">
                   <div class="zoom-mode select2">
                     <span>Overview</span>
                     <div class="slide2">  

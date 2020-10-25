@@ -1580,57 +1580,59 @@ function KnobCreate(knobContainerClass, eqNode, eqNode2) {
   this.knobContainer = document.querySelector(knobContainerClass);
   this.knob = new _precisionInputs.FLStandardKnob(this.knobContainer);
   eqNode.Q.value = 5;
+
+  if (eqNode2) {
+    eqNode2.frequency.value = 0;
+    eqNode2.Q.value = 5;
+  }
+
+  this.knob.addEventListener('dblclick', function (evt) {
+    if (eqNode2) {
+      eqNode.frequency.value = 24000;
+      eqNode2.frequency.value = 0;
+    } else {
+      eqNode.gain.value = 0;
+    }
+  });
   this.knob.addEventListener('change', function (evt) {
     if (eqNode2) {
-      // eqNode.Q.value = 5;
-      // eqNode2.Q.value = 5;
-      // switch(evt.target.value){
-      //     case(evt.target.value > -20):
-      //         console.log('thing');
-      //     default:
-      //         console.log(evt.target.value)
-      // }
       if (evt.target.value <= -30) {
-        console.log('less than -30');
-        console.log(840 + evt.target.value * 20);
+        // console.log('less than -30');
+        // console.log(840 + (evt.target.value*20));
         eqNode.frequency.value = 840 + evt.target.value * 20;
       } else if (evt.target.value <= -20) {
-        console.log('-30 to -20'); // console.log(3516 + (evt.target.value*100))
-
-        console.log(1139 + evt.target.value * 30);
+        // console.log('-30 to -20');
+        // console.log(1139 + (evt.target.value*30));
         eqNode.frequency.value = 1139 + evt.target.value * 30;
       } else if (evt.target.value <= -10) {
-        console.log('-20 to -10'); // console.log(2700 + (evt.target.value*60))
-
-        console.log(2517 + evt.target.value * 100);
+        // console.log('-20 to -10');
+        // console.log(2517 + (evt.target.value*100));
         eqNode.frequency.value = 2517 + evt.target.value * 100;
       } else if (evt.target.value <= 0) {
-        console.log('-10 to 0');
-        console.log(24000 + evt.target.value * 2280);
+        // console.log('-10 to 0');
+        // console.log(24000 + (evt.target.value*2280));
         eqNode.frequency.value = 24000 + evt.target.value * 2280;
+        eqNode2.frequency.value = 0;
       } else if (evt.target.value <= 10) {
-        console.log('0 to 10');
-        console.log(evt.target.value * 20);
+        // console.log('0 to 10');
+        // console.log((evt.target.value*20));
         eqNode2.frequency.value = evt.target.value * 20;
       } else if (evt.target.value <= 20) {
-        console.log('10 to 20');
-        console.log(evt.target.value * 30 - 97);
+        // console.log('10 to 20');
+        // console.log((evt.target.value*30) - 97);
         eqNode2.frequency.value = evt.target.value * 30 - 97;
       } else if (evt.target.value <= 30) {
-        console.log('20 to 30');
-        console.log(evt.target.value * 100 - 1503);
+        // console.log('20 to 30');
+        // console.log((evt.target.value*100) - 1503);
         eqNode2.frequency.value = evt.target.value * 100 - 1503;
       } else if (evt.target.value <= 40) {
-        console.log('30 to 40');
-        console.log(evt.target.value * 2280 - 67193);
+        // console.log('30 to 40');
+        // console.log((evt.target.value*2280) - 67193);
         eqNode2.frequency.value = evt.target.value * 2280 - 67193;
-      } // evt.target.value < 0 ?
-      // eqNode.frequency.value = 8121 - ((Math.pow(evt.target.value, 2)) * (Math.log(evt.target.value*-4))) :
-      // eqNode2.frequency.value = (((Math.pow(evt.target.value, 2)) * (Math.log(evt.target.value*4))) ) ;
-
+      }
+    } else {
+      eqNode.gain.value = evt.target.value;
     }
-
-    eqNode.gain.value = evt.target.value;
   });
 }
 
@@ -9546,7 +9548,8 @@ function Deck(deckNumberString, state) {
   this.SCKEY3 = 'c92343835f607734d719d94afcb679d7'; //  Internal state   //
 
   this.loadedTrack = null;
-  this.detectedBPM = null; //  instantiating wavesurfer    //
+  this.detectedBPM = null;
+  this.selectedZoomBool = true; //  instantiating wavesurfer    //
 
   this.wavesurfer = _wavesurfer.default.create({
     container: "#waveform".concat(deckNumberString),
@@ -9561,7 +9564,15 @@ function Deck(deckNumberString, state) {
 
   this.audioContext = new AudioContext(); //avoiding CORS error
 
-  this.scPlayer.audio.crossOrigin = 'anonymous'; //instantiating eq nodes
+  this.scPlayer.audio.crossOrigin = 'anonymous'; //instantiating gain nodes for crossfader 
+
+  this.trackVolume = this.wavesurfer.backend.ac.createGain();
+  this.crossFaderGain = this.wavesurfer.backend.ac.createGain(); // console.log(this.wavesurfer.backend.gainNode)
+
+  this.wavesurfer.backend.gainNode.disconnect(this.wavesurfer.backend.ac.destination);
+  this.wavesurfer.backend.gainNode.connect(this.trackVolume);
+  this.trackVolume.connect(this.crossFaderGain);
+  this.crossFaderGain.connect(this.wavesurfer.backend.ac.destination); //instantiating eq nodes
 
   this.lowShelf = this.wavesurfer.backend.ac.createBiquadFilter();
   this.lowShelf.type = 'lowshelf';
@@ -9606,6 +9617,11 @@ function Deck(deckNumberString, state) {
 
   this.stopFunc = function () {
     this.wavesurfer.stop();
+
+    if (this.selectedZoomBool) {
+      // this.wavesurfer.zoom(201);
+      this.wavesurfer.zoom(200);
+    }
   };
 
   this.updateBPM = function (bpm) {
@@ -9624,7 +9640,8 @@ function Deck(deckNumberString, state) {
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
     this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
-    var ctx = this.wavesurfer.backend.getAudioContext(); // Fetch some audio file
+    var ctx = this.wavesurfer.backend.getAudioContext();
+    this.tempoSlider.value = 1000; // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
     .then(function (response) {
@@ -9654,7 +9671,6 @@ function Deck(deckNumberString, state) {
   };
 
   this.onDragFunc = function (e) {
-    console.log('dragging');
     e.preventDefault();
   };
 
@@ -9666,9 +9682,15 @@ function Deck(deckNumberString, state) {
   this.zoomModeFunc = function (e) {
     if (e.target.checked) {
       this.wavesurfer.zoom(200);
+      this.selectedZoomBool = true;
     } else {
       this.wavesurfer.zoom(0);
+      this.selectedZoomBool = false;
     }
+  };
+
+  this.trackVolFunc = function (e) {
+    this.trackVolume.gain.value = e.target.value;
   }; // instantiating knobs
 
 
@@ -9682,19 +9704,21 @@ function Deck(deckNumberString, state) {
   this.stopBtn = document.querySelector(".deck".concat(deckNumberString, "-transport-stop"));
   this.loadTrackBtn = document.querySelector(".deck".concat(deckNumberString, "-panel .loadBtn"));
   this.bpmTxt = document.getElementById("bpm".concat(deckNumberString));
-  this.tempoSLider = document.getElementById("tempo".concat(deckNumberString));
+  this.tempoSlider = document.getElementById("tempo".concat(deckNumberString));
   this.container = document.querySelector(".deck".concat(deckNumberString, "-container"));
   this.loadingDiv = document.querySelector(".waveform-loading".concat(deckNumberString));
-  this.zoomModeSelect = document.getElementById("slide".concat(deckNumberString)); //  event listeners
+  this.zoomModeSelect = document.getElementById("slide".concat(deckNumberString));
+  this.trackVolSlider = document.getElementById("deck".concat(deckNumberString, "vol")); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
   this.loadTrackBtn.addEventListener('click', this.loadTrackFunc.bind(this), false);
   this.stopBtn.addEventListener('click', this.stopFunc.bind(this), false);
-  this.tempoSLider.addEventListener('input', this.tempoFunc.bind(this), false);
+  this.tempoSlider.addEventListener('input', this.tempoFunc.bind(this), false);
   this.container.addEventListener('dragover', this.onDragFunc.bind(this), false);
   this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
   this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false);
+  this.trackVolSlider.addEventListener('input', this.trackVolFunc.bind(this), false);
 }
 
 var _default = Deck;
@@ -9800,6 +9824,74 @@ function State() {
 
 var _default = State;
 exports.default = _default;
+},{}],"../src/CrossFader/CrossFader.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function CrossFader(deck1Gain, deck2Gain) {
+  // this.deck1GainNode = deck1WaveSurfer.backend.createVolumeNode();
+  // this.deck2GainNode = deck2WaveSurfer.backend.createVolumeNode();
+  // console.log(deck1Gain.gain.value);
+  // createVolumeNode() {
+  //     // Create gain node using the AudioContext
+  //     if (this.ac.createGain) {
+  //         this.gainNode = this.ac.createGain();
+  //     } else {
+  //         this.gainNode = this.ac.createGainNode();
+  //     }
+  //     // Add the gain node to the graph
+  //     this.gainNode.connect(this.ac.destination);
+  // }
+  //  Methods     //
+  this.positionCalc = function (position) {
+    // position will be between 0 and 100
+    var minp = 0;
+    var maxp = 90; // The result should be between 100 an 10000000
+
+    var minv = Math.log(1);
+    var maxv = Math.log(100); // calculate adjustment factor
+
+    var scale = (maxv - minv) / (maxp - minp);
+    return Math.exp(minv + scale * (position - minp));
+  };
+
+  this.crossFadeFunc = function (evt) {
+    // console.log(1 - this.positionCalc(evt.target.value)/100);
+    if (evt.target.value > 89) {
+      // console.log(deck1Gain.gain.value)
+      // console.log((1 - evt.target.value/100)/2)
+      deck1Gain.gain.value = (1 - evt.target.value / 100) / 2;
+      deck2Gain.gain.value = 1 - this.positionCalc(100 - evt.target.value) / 100; // console.log(1 - this.positionCalc(100 - evt.target.value)/100)
+      // console.log(deck2Gain.gain.value)
+    } else if (evt.target.value < 11) {
+      deck1Gain.gain.value = 1 - this.positionCalc(evt.target.value) / 100;
+      deck2Gain.gain.value = (1 - (100 - evt.target.value) / 100) / 2;
+    } else {
+      deck1Gain.gain.value = 1 - this.positionCalc(evt.target.value) / 100;
+      deck2Gain.gain.value = 1 - this.positionCalc(100 - evt.target.value) / 100;
+    } // console.log(deck1Gain.gain.value)
+
+  };
+
+  this.crossFadeDblClick = function (evt) {
+    // console.log(evt.target.value);
+    evt.target.value = 50;
+    this.crossFadeFunc(evt);
+  }; //  selectors   //
+
+
+  this.crossFadeSlider = document.getElementById('crossfader'); //  event Handlers  //
+
+  this.crossFadeSlider.addEventListener('input', this.crossFadeFunc.bind(this), false);
+  this.crossFadeSlider.addEventListener('dblclick', this.crossFadeDblClick.bind(this), false);
+}
+
+var _default = CrossFader;
+exports.default = _default;
 },{}],"../src/app.js":[function(require,module,exports) {
 "use strict";
 
@@ -9817,6 +9909,8 @@ var _State = _interopRequireDefault(require("./State/State.js"));
 
 var _wavesurfer = _interopRequireDefault(require("wavesurfer.js"));
 
+var _CrossFader = _interopRequireDefault(require("./CrossFader/CrossFader"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
@@ -9824,33 +9918,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
-  var state = new _State.default(); // this.functiontest = function(){
-  //   // var wavesurfer = WaveSurfer.create({
-  //   //     container: '#waveform',
-  //   //     waveColor: 'violet',
-  //   //     progressColor: 'purple'
-  //   // });
-  // }
-  // const wavesurfer = WaveSurfer.create({
-  //   container: '#waveform',
-  //   waveColor: 'red',
-  //   progressColor: 'purple'
-  // });
-  // wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
-  //   var wavesurfer = WaveSurfer.create({
-  //     container: '#waveform',
-  //     waveColor: 'violet',
-  //     progressColor: 'purple'
-  // });
-
+  var state = new _State.default();
   var deck1 = new _Deck.default('1', state);
   var deck2 = new _Deck.default('2', state);
-  var playlist = new _PlayList.default(deck2, state); // const lowShelfKnob = new KnobCreate('.deck1-eq-low');
+  var playlist = new _PlayList.default(deck2, state);
+  var crossfader = new _CrossFader.default(deck1.crossFaderGain, deck2.crossFaderGain); // console.log(deck1.wavesurfer.backend.createVolumeNode)
 }
 
 ;
 console.log('it works mofo');
-},{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js","./PlayList/PlayList.js":"../src/PlayList/PlayList.js","./State/State.js":"../src/State/State.js","wavesurfer.js":"../node_modules/wavesurfer.js/dist/wavesurfer.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js","./PlayList/PlayList.js":"../src/PlayList/PlayList.js","./State/State.js":"../src/State/State.js","wavesurfer.js":"../node_modules/wavesurfer.js/dist/wavesurfer.js","./CrossFader/CrossFader":"../src/CrossFader/CrossFader.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -9878,7 +9955,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58697" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51433" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
