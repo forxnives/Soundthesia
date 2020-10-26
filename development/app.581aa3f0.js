@@ -9550,7 +9550,7 @@ function Deck(deckNumberString, state) {
 
   this.wavesurfer = _wavesurfer.default.create({
     container: "#waveform".concat(deckNumberString),
-    waveColor: 'violet',
+    waveColor: '#2C2C54',
     progressColor: 'purple',
     hideScrollbar: true,
     height: 112

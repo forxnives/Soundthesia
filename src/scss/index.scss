@@ -76,6 +76,8 @@ header {
 
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
+                align-items: center;
 
             }
 
@@ -538,6 +540,8 @@ header {
 
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 width: 30vw;
             }
 
@@ -984,3 +988,11 @@ header {
 
 
 // }
+
+
+.bpm-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+}
