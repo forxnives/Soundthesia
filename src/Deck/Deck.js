@@ -20,6 +20,7 @@ function Deck (deckNumberString, state) {
     //  Internal state   //
     this.loadedTrack = null;
     this.detectedBPM = null;
+    this.selectedZoomBool = true;
 
     //  instantiating wavesurfer    //
 
@@ -41,6 +42,24 @@ function Deck (deckNumberString, state) {
 
     //avoiding CORS error
     this.scPlayer.audio.crossOrigin = 'anonymous';
+
+    //instantiating gain nodes for crossfader 
+
+    this.trackVolume = this.wavesurfer.backend.ac.createGain();
+
+    this.crossFaderGain = this.wavesurfer.backend.ac.createGain();
+
+    // console.log(this.wavesurfer.backend.gainNode)
+
+    this.wavesurfer.backend.gainNode.disconnect(this.wavesurfer.backend.ac.destination)
+
+    this.wavesurfer.backend.gainNode.connect(this.trackVolume);
+
+    this.trackVolume.connect(this.crossFaderGain);
+
+    this.crossFaderGain.connect(this.wavesurfer.backend.ac.destination);
+
+
 
 
     //instantiating eq nodes
@@ -100,7 +119,9 @@ function Deck (deckNumberString, state) {
 
         this.audioContext.resume().then(() => {
 
-            this.wavesurfer.play()
+            this.wavesurfer.play();
+
+            this.platterVinyl.classList.add('rotating');
             
         });
 
@@ -109,13 +130,25 @@ function Deck (deckNumberString, state) {
 
     this.pauseFunc = function () {
 
-        this.wavesurfer.pause()
+        this.wavesurfer.pause();
+
+        this.platterVinyl.classList.remove('rotating');
 
     };
 
     this.stopFunc = function () {
 
-        this.wavesurfer.stop()
+
+
+        this.wavesurfer.stop();
+
+        this.platterVinyl.classList.remove('rotating');
+
+        if (this.selectedZoomBool) {
+            // this.wavesurfer.zoom(201);
+            this.wavesurfer.zoom(200);
+        }
+
 
     };
 
@@ -140,11 +173,18 @@ function Deck (deckNumberString, state) {
 
         const mp3Link = `${this.loadedTrack.stream_url}?client_id=${this.SCKEY2}`
 
+
         this.loadingAnimateFunc()
 
         this.wavesurfer.load(mp3Link);
 
         let ctx = this.wavesurfer.backend.getAudioContext();
+
+        this.tempoSlider.value = 1000;
+
+        this.platterVinyl.style.backgroundImage = `url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')`
+
+        this.vinylArt.style.backgroundImage = `url(${this.loadedTrack.artwork_url})`
 
 
                 // Fetch some audio file
@@ -181,7 +221,7 @@ function Deck (deckNumberString, state) {
     }
 
     this.onDragFunc = function(e) {
-        console.log('dragging')
+        
         e.preventDefault()
     }
 
@@ -197,10 +237,18 @@ function Deck (deckNumberString, state) {
 
         if (e.target.checked){
             this.wavesurfer.zoom(200);
+            this.selectedZoomBool = true;
         }else {
             this.wavesurfer.zoom(0);
+            this.selectedZoomBool = false;
         }
     }
+
+    this.trackVolFunc = function (e) {
+
+        this.trackVolume.gain.value = e.target.value;
+
+    } 
 
 
     // instantiating knobs
@@ -223,13 +271,22 @@ function Deck (deckNumberString, state) {
 
     this.bpmTxt = document.getElementById(`bpm${deckNumberString}`);
 
-    this.tempoSLider = document.getElementById(`tempo${deckNumberString}`);
+    this.tempoSlider = document.getElementById(`tempo${deckNumberString}`);
 
     this.container = document.querySelector(`.deck${deckNumberString}-container`);
 
     this.loadingDiv = document.querySelector(`.waveform-loading${deckNumberString}`);
 
     this.zoomModeSelect = document.getElementById(`slide${deckNumberString}`);
+
+    this.trackVolSlider = document.getElementById(`deck${deckNumberString}vol`);
+    
+    this.platterVinyl = document.querySelector(`.platter${deckNumberString}`);
+
+    this.vinylArt = document.querySelector(`.disc-artwork${deckNumberString}`);
+
+    console.log(this.vinylArt);
+
 
 
 
@@ -243,13 +300,15 @@ function Deck (deckNumberString, state) {
 
     this.stopBtn.addEventListener('click', this.stopFunc.bind(this), false);
 
-    this.tempoSLider.addEventListener('input', this.tempoFunc.bind(this), false);
+    this.tempoSlider.addEventListener('input', this.tempoFunc.bind(this), false);
 
     this.container.addEventListener('dragover', this.onDragFunc.bind(this), false);
 
     this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
 
-    this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false)
+    this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false);
+
+    this.trackVolSlider.addEventListener('input', this.trackVolFunc.bind(this), false);
 
 
 }
