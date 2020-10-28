@@ -9608,15 +9608,19 @@ function Deck(deckNumberString, state) {
 
     this.audioContext.resume().then(function () {
       _this.wavesurfer.play();
+
+      _this.platterVinyl.classList.add('rotating');
     });
   };
 
   this.pauseFunc = function () {
     this.wavesurfer.pause();
+    this.platterVinyl.classList.remove('rotating');
   };
 
   this.stopFunc = function () {
     this.wavesurfer.stop();
+    this.platterVinyl.classList.remove('rotating');
 
     if (this.selectedZoomBool) {
       // this.wavesurfer.zoom(201);
@@ -9638,10 +9642,13 @@ function Deck(deckNumberString, state) {
 
     this.loadedTrack = state.selectedTrack;
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
+    console.log(this.loadedTrack.artwork_url);
     this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
     var ctx = this.wavesurfer.backend.getAudioContext();
-    this.tempoSlider.value = 1000; // Fetch some audio file
+    this.tempoSlider.value = 1000;
+    this.platterVinyl.style.backgroundImage = "url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')";
+    this.vinylArt.style.backgroundImage = "url(".concat(this.loadedTrack.artwork_url, ")"); // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
     .then(function (response) {
@@ -9708,7 +9715,10 @@ function Deck(deckNumberString, state) {
   this.container = document.querySelector(".deck".concat(deckNumberString, "-container"));
   this.loadingDiv = document.querySelector(".waveform-loading".concat(deckNumberString));
   this.zoomModeSelect = document.getElementById("slide".concat(deckNumberString));
-  this.trackVolSlider = document.getElementById("deck".concat(deckNumberString, "vol")); //  event listeners
+  this.trackVolSlider = document.getElementById("deck".concat(deckNumberString, "vol"));
+  this.platterVinyl = document.querySelector(".platter".concat(deckNumberString));
+  this.vinylArt = document.querySelector(".disc-artwork".concat(deckNumberString));
+  console.log(this.vinylArt); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9955,7 +9965,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51433" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52098" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
