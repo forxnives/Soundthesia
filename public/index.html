@@ -13,23 +13,10 @@
     <div class="app-container">
 
         <header>
+          <span>SOUNDTHESIA</span>
 
         </header>
-<!-- 
-        <section class='svg-lines'>
 
-          <svg class='svg-box' viewBox='0 0 100 100'>
-            <line x1='10' y1='10' x2='50' y2='10' stroke='black' width='1px' vector-effect='non-scaling-stroke'>
-
-            </line>
-          
-
-          </svg>
-
-        </section> -->
-
-
-    
         <section class="decks-container">
 
           <div class="deck1-container">
@@ -38,16 +25,11 @@
 
               <div class="waveform-loading1 invisible">
 
-
                 <span id='loading-txt1'>Loading</span>
 
                 <img style='mix-blend-mode: multiply;' src="../src/img/trackloadingsvg.svg" alt="">
 
               </div>
-
-
-
-
 
               <div class="waveform-position">
 
@@ -58,7 +40,6 @@
               </div>
 
             </div>
-
 
             <div class="deck1">
 
@@ -78,11 +59,16 @@
               </div>
 
               <div class="deck1-tempo">
-                  <div class="input-container">
+                
+                <div class="bpm-container">
+                  <h2 id='bpm1'></h2>
+                </div>
+                <div class="input-container">
 
-                      <input id='tempo1' class='range' type="range" min="900" max="1100">
+                    <input id='tempo1' class='range' type="range" min="900" max="1100">
 
-                  </div>
+                </div>
+
               </div>
 
               <div class="deck1-panel">
@@ -90,11 +76,22 @@
                   <div class="deck1-panel-info">
 
 
+                    <div class="panel-platter">
+
+                      <div class="panel-platter-disc  platter1">
 
 
+                        <div class="disc-artwork1">
 
-                    <div class="bpm-container">
-                      <h2 id='bpm1'></h2>
+                        </div>
+  
+                      </div>
+
+                    </div>
+
+                    <div class="panel-details">
+
+
                     </div>
 
                     <div class="loadBtn-container">
@@ -136,40 +133,11 @@
 
               </div>
 
-              <!-- <div class="deck1-eq">
-
-                  <div class="deck1-eq-high">
-                      
-                  </div>
-
-                  <div class="deck1-eq-mid">
-
-                  </div>
-
-                  <div class="deck1-eq-low">
-
-                  </div>
-
-                  <div class="deck1-eq-filter">
-
-                  </div>
-
-              </div> -->
-
           </div>
 
-
           </div>
-
-
 
             <div class="mixer">
-
-
-
-
-
-              
 
                 <div class="mixer-deck1-vol">
 
@@ -193,9 +161,6 @@
     
                   </div>
 
-
-
-
                     <div class="input-container">
 
                         <input id='deck1vol' min="0" max="1" value="1" step="0.01" class='range' type="range">
@@ -216,7 +181,6 @@
 
                     </div>
 
-                    
                     <div class="deck2-eq">
 
                       <div class="deck2-eq-high">
@@ -240,9 +204,6 @@
                 </div>
 
 
-
-                
-
                 <div class="mixer-crossfader">
 
                     <input id="crossfader" type="range">    
@@ -252,7 +213,6 @@
             </div>
 
             <div class="deck2-container">
-
 
               <div class="waveform-contain">
 
@@ -264,7 +224,6 @@
   
                 </div>
 
-
                 <div class="waveform-position">
 
                   <div id="waveform2">
@@ -272,9 +231,6 @@
                   </div>
 
                 </div>
-
-
-
 
               </div>
   
@@ -293,43 +249,31 @@
 
                   </div>
 
-
                 </div>
-  
-  
-                  <!-- <div class="deck2-eq">
-  
-                      <div class="deck2-eq-high">
-  
-                      </div>
-  
-                      <div class="deck2-eq-mid">
-  
-                      </div>
-  
-                      <div class="deck2-eq-low">
-  
-                      </div>
-  
-                      <div class="deck2-eq-filter">
-  
-                      </div>
-                      
-                  </div>      -->
   
                   <div class="deck2-panel">
   
                       <div class="deck2-panel-info">
 
+                        <div class="panel-platter">
 
 
-  
-  
-                        <div class="bpm-container">
-                          <h2 id='bpm2'></h2>
+                          <div class="panel-platter-disc  platter2">
+
+                            <!-- <span style="position: absolute;">no track loaded</span> -->
+
+                            <div class="disc-artwork2">
+
+                            </div>  
+                              
+                          </div>
+
                         </div>
 
-  
+                        <div class="panel-details">
+
+                        </div>
+                        
                         <div class="loadBtn-container">
                           <div class="loadBtn load2">
                             <span style="color: white;" class="material-icons">
@@ -369,24 +313,23 @@
                   </div>
   
                   <div class="deck2-tempo">
-                      <div class="input-container">
-  
-                          <input id='tempo2' class='range' type="range" min="900" max="1100">
-  
-                      </div>
+
+                    <div class="bpm-container">
+                      <h2 id='bpm2'></h2>
+                    </div>
+
+
+                    <div class="input-container">
+
+                        <input id='tempo2' class='range' type="range" min="900" max="1100">
+
+                    </div>
                   </div>
   
               </div>
 
-
-
-
-
-
             </div>
 
-
-    
         </section>
 
         <section class="playlist-container">
@@ -440,17 +383,11 @@
                     </tbody>
                   </div>
 
-
                 </table>
         
         </section>
 
     </div>
-
-    <!-- <div class="my-fl-knob">
-
-        <span>TESTKNOKB</span>
-    </div> -->
 
     <script src='../src/app.js'></script>
 </body>

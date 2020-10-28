@@ -1,3 +1,7 @@
+$page-width : 97%;
+
+
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,7 +11,9 @@
 body {
     height: 100%;
     font-family: 'Fjalla One', sans-serif;
-    background-color: #3A3E41;
+    // background-color: #3A3E41;
+    background-image: url('https://3dlancer.net/upload/modelimages/450/41450/texture-american-walnut-texture-119500-xxl.jpg');
+    background-size: contain;
 
 }
 
@@ -24,7 +30,7 @@ body {
 
 header {
 
-    width: 95%;
+    width: $page-width;
     border: 2px solid black;
     background-color: #131516;
     
@@ -34,11 +40,22 @@ header {
 
 .decks-container {
     
-    width: 95%;
+    width: $page-width;
     border: 1px solid black;
     display: grid;
     grid-template-columns: 38% 24% 38%;
     background-color: #9EA4A9;
+    box-shadow: 0 100px 400px rgba(255, 255, 255, 0.15) inset, 0 -100px 900px rgba(0, 0, 0, 0.105) inset, 30px 20px 50px rgba(0, 0, 0, 0.15);
+    background-size: contain;
+
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+
 
     
     .deck1 {
@@ -49,6 +66,7 @@ header {
         background-color: #4A505A;
         // display: flex;
         // justify-content: space-between;
+        box-shadow: 0 100px 400px rgba(255, 255, 255, 0.95) inset, 0 -100px 90px rgba(0, 0, 0, 0.95) inset, 30px 20px 50px rgba(0, 0, 0, 0.95);
 
         display: grid;
 
@@ -78,6 +96,64 @@ header {
 
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+
+                .panel-details {
+                    // border: 2px solid black;
+                    z-index: 0;
+                    // position: absolute;
+                    background-color: lightblue;
+                    width: 20vw;
+                    height: 20vh;
+                    bottom: 0vh;
+                    align-self: flex-end;
+                    margin-right: 3vw;
+                    margin-top: 5vh;
+                    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15) inset, 0 -10px 50px rgba(0, 0, 0, 0.105) inset, -3px 2px 5px rgba(0, 0, 0, 0.15);
+                }
+
+
+                .panel-platter {
+                    // border: 2px solid black;
+                    z-index: 1;
+                    padding: 1vh;
+                    border-radius: 400px;
+                    align-self: flex-start;
+                    margin-left: 2vw;
+                    margin-top: 1vh;
+                    position: absolute;
+                    background-color: white;
+
+                    .panel-platter-disc {
+
+                        border: 2px solid black;
+                        // position: absolute;
+                        border-radius: 400px;
+                        padding: 7vh;
+
+                        position: relative;
+                        // background-image: url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png');
+                        background-repeat: no-repeat ;
+                        background-size: cover;
+                        background-position: center;
+
+                        .disc-artwork1 {
+                            color: white;
+                            // position: absolute;
+                            padding: 5vh;
+                            // background-image: url('https://i1.sndcdn.com/artworks-gaC0UhUtJQpiwy8H-Bbu63w-large.jpg');
+                            background-color: white;
+                            border-radius: 300px;
+                            background-repeat: no-repeat ;
+                            background-size: cover;
+                            background-position: center;
+                        }
+
+                    }
+
+                }
 
             }
 
@@ -171,10 +247,7 @@ header {
 
             align-self: flex-end;
 
-
             height: 100%;
-
-
             position: relative;
             overflow: hidden;
             
@@ -182,12 +255,9 @@ header {
             .input-container {
 
                 position: absolute;
-
                 left: -101%;
                 top: 43%;
             
-
-
 
 
                 input[type=range]{
@@ -276,7 +346,6 @@ header {
 
             }
 
-
         }
 
     }
@@ -290,6 +359,8 @@ header {
         grid-template-columns: 100px 1.5fr 100px;
         grid-template-rows: 4fr 1fr;
         border-top: 2px solid #4A505A;
+
+
 
 
         &-deck1-vol {
@@ -602,7 +673,7 @@ header {
         clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%, 0 70%);
         background-color: #4A505A;
         z-index: 0;
-
+        box-shadow: 0 100px 400px rgba(255, 255, 255, 0.95) inset, 0 -100px 90px rgba(0, 0, 0, 0.95) inset, 30px 20px 50px rgba(0, 0, 0, 0.95);
 
         &-dummy {
             position: absolute;
@@ -613,8 +684,8 @@ header {
             clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%, 0 70%);
             background-color: white;
             z-index: 0;
-
         }
+
 
         // border: 2px solid black;
         height: 74%;
@@ -626,9 +697,7 @@ header {
         grid-template-columns: 5fr 80px;
 
 
-
         &-panel {
-
 
             // border: 2px solid purple;
             display: grid;
@@ -639,7 +708,69 @@ header {
 
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 width: 30vw;
+
+
+                .panel-details {
+
+                    z-index: 0;
+                    background-color: lightblue;
+                    width: 20vw;
+                    height: 20vh;
+                    bottom: 0vh;
+                    align-self: flex-end;
+                    margin-right: 7vw;
+                    margin-top: 5vh;
+                    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15) inset, 0 -10px 50px rgba(0, 0, 0, 0.105) inset, 3px 2px 5px rgba(0, 0, 0, 0.15);
+                }
+
+
+
+                .panel-platter {
+
+                    z-index: 1;
+                    padding: 1vh;
+                    border-radius: 400px;
+                    align-self: flex-end;
+                    margin-left: 14vw;
+                    margin-top: 1vh;
+                    background-color: white;
+                    position: absolute;
+
+
+                    .panel-platter-disc {
+
+                        border: 2px solid black;
+                        // position: absolute;
+                        border-radius: 400px;
+                        padding: 7vh;
+                        position: relative;
+                            // background-image: url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png');
+                        background-repeat: no-repeat ;
+                        background-size: cover;
+                        background-position: center;
+
+                        .disc-artwork2 {
+                            color: white;
+                            // position: absolute;
+                            padding: 5vh;
+                            // background-image: url('https://i1.sndcdn.com/artworks-gaC0UhUtJQpiwy8H-Bbu63w-large.jpg');
+                            background-color: white;
+                            border-radius: 300px;
+                            background-repeat: no-repeat ;
+                            background-size: cover;
+                            background-position: center;
+                        }
+                        
+
+
+
+                    }
+                }
+
+
             }
 
             &-transport {
@@ -852,8 +983,9 @@ header {
 
 .playlist-container {
 
-    width: 95%;
-    // border: 2px solid black;
+    width: $page-width;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 
@@ -921,8 +1053,9 @@ header {
 
         margin: 0 5px;
         position: absolute;
-        top: 21vh;
+        top: 2vh;
         // right: 1vw;
+        z-index: 20;
 
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
@@ -953,11 +1086,11 @@ header {
     }
 
     .load1 {
-        right: 2vw;
+        left: 9vw;
     }
 
     .load2 {
-        left: 2vw;
+        right: 8vw;
     }
 
 }
@@ -1097,23 +1230,27 @@ header {
   }
 
 
-// .svg-lines {
-//     position: absolute;
-//     // background-color: yellow;
-//     overflow: hidden;
-//     width: 100%;
-//     height: 100%;
-//     z-index: -20;
-// }
-
-// .svg-box {
-
-//     border: 1px solid black;
-//     width: 100%;
-//     height: 100%;
 
 
-    
+.bpm-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+}
 
 
-// }
+.rotating {
+    animation: rotation 3s infinite linear;
+}
+
+
+
+@keyframes rotation {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(359deg);
+    }
+}

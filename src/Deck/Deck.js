@@ -9,8 +9,6 @@ import detect from 'bpm-detective';
 
 
 
-
-
 function Deck (deckNumberString, state) {
 
     this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
@@ -21,12 +19,13 @@ function Deck (deckNumberString, state) {
     this.loadedTrack = null;
     this.detectedBPM = null;
     this.selectedZoomBool = true;
+    this.readyToPlay = false;
 
     //  instantiating wavesurfer    //
 
     this.wavesurfer = WaveSurfer.create({
         container: `#waveform${deckNumberString}`,
-        waveColor: 'violet',
+        waveColor: '#2C2C54',
         progressColor: 'purple',
         hideScrollbar: true,
         height: 112
@@ -61,7 +60,6 @@ function Deck (deckNumberString, state) {
 
 
 
-
     //instantiating eq nodes
 
     this.lowShelf = this.wavesurfer.backend.ac.createBiquadFilter();
@@ -87,7 +85,7 @@ function Deck (deckNumberString, state) {
     this.filterArray = [this.lowShelf, this.midBand, this.highBand, this.lowPass, this.highPass];
 
 
-    //routing nodes
+    //routing nodes 
 
 
     this.wavesurfer.backend.setFilters(this.filterArray);
@@ -96,19 +94,11 @@ function Deck (deckNumberString, state) {
 
     this.source = this.audioCtx.createBufferSource();
 
+    this.wavesurfer.on('loading', (e) => this.handleLoadFunc(e));
 
+    this.wavesurfer.on('ready', (e) => this.handleReadyFunc(e))
 
-    this.wavesurfer.on('loading', function (e) {
-
-        document.getElementById(`loading-txt${deckNumberString}`).innerText = e
-
-    });
-
-    this.wavesurfer.on('ready', function(e) {
-        // this.loadingDiv.classList.add('invisible');
-        document.querySelector(`.waveform-loading${deckNumberString}`).classList.add('invisible');
-        document.getElementById(`loading-txt${deckNumberString}`).innerText = 'Loading'
-    })
+    this.wavesurfer.on('finish', () => this.handleFinishFunc())
 
 
 
@@ -119,22 +109,32 @@ function Deck (deckNumberString, state) {
 
         this.audioContext.resume().then(() => {
 
-            this.wavesurfer.play()
+            if (this.readyToPlay) {
+                this.platterVinyl.classList.add('rotating');
+                this.wavesurfer.play();
+            }
             
         });
 
     }
 
 
+
     this.pauseFunc = function () {
 
-        this.wavesurfer.pause()
+        this.wavesurfer.pause();
+
+        this.platterVinyl.classList.remove('rotating');
 
     };
 
+
+
     this.stopFunc = function () {
 
-        this.wavesurfer.stop()
+        this.wavesurfer.stop();
+
+        this.platterVinyl.classList.remove('rotating');
 
         if (this.selectedZoomBool) {
             // this.wavesurfer.zoom(201);
@@ -143,6 +143,8 @@ function Deck (deckNumberString, state) {
 
     };
 
+
+
     this.updateBPM = function(bpm) {
         
         this.bpmTxt.innerText = bpm;
@@ -150,19 +152,60 @@ function Deck (deckNumberString, state) {
 
     }
 
+
+
     this.loadingAnimateFunc = function() {
 
         this.loadingDiv.classList.remove('invisible');
 
+    }
+
+
+    this.handleLoadFunc = function (e) {
+
+        document.getElementById(`loading-txt${deckNumberString}`).innerText = e
+        
+        if (this.readyToPlay = true){
+            this.readyToPlay = false;
+        }
+
+    }
+
+    this.handleReadyFunc = function(e) {
+        // this.loadingDiv.classList.add('invisible');
+
+        document.querySelector(`.waveform-loading${deckNumberString}`).classList.add('invisible');
+        document.getElementById(`loading-txt${deckNumberString}`).innerText = 'Loading';
+
+        this.readyToPlay = true
+    }
+
+
+
+    this.handleFinishFunc = function() {
+
+        this.platterVinyl.classList.remove('rotating');
 
     }
 
 
+
+
+
+
     this.loadTrackFunc = function() {
+
+        // this.waversurfer.empty()
 
         this.loadedTrack = state.selectedTrack;
 
+
+        if (this.wavesurfer.isPlaying()) {
+            this.platterVinyl.classList.remove('rotating');
+        }
+
         const mp3Link = `${this.loadedTrack.stream_url}?client_id=${this.SCKEY2}`
+
 
         this.loadingAnimateFunc()
 
@@ -171,6 +214,10 @@ function Deck (deckNumberString, state) {
         let ctx = this.wavesurfer.backend.getAudioContext();
 
         this.tempoSlider.value = 1000;
+
+        this.platterVinyl.style.backgroundImage = `url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')`
+
+        this.vinylArt.style.backgroundImage = `url(${this.loadedTrack.artwork_url})`
 
 
                 // Fetch some audio file
@@ -266,6 +313,12 @@ function Deck (deckNumberString, state) {
     this.zoomModeSelect = document.getElementById(`slide${deckNumberString}`);
 
     this.trackVolSlider = document.getElementById(`deck${deckNumberString}vol`);
+    
+    this.platterVinyl = document.querySelector(`.platter${deckNumberString}`);
+
+    this.vinylArt = document.querySelector(`.disc-artwork${deckNumberString}`);
+
+    console.log(this.vinylArt);
 
 
 

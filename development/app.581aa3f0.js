@@ -9543,17 +9543,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import loadingSVG from '../trackloadingsvg.svg';
 function Deck(deckNumberString, state) {
+  var _this = this;
+
   this.SCKEY2 = '72e56a72d70b611ec8bcab7b2faf1015';
   this.SCKEY1 = 'a3dd183a357fcff9a6943c0d65664087';
   this.SCKEY3 = 'c92343835f607734d719d94afcb679d7'; //  Internal state   //
 
   this.loadedTrack = null;
   this.detectedBPM = null;
-  this.selectedZoomBool = true; //  instantiating wavesurfer    //
+  this.selectedZoomBool = true;
+  this.readyToPlay = false; //  instantiating wavesurfer    //
 
   this.wavesurfer = _wavesurfer.default.create({
     container: "#waveform".concat(deckNumberString),
-    waveColor: 'violet',
+    waveColor: '#2C2C54',
     progressColor: 'purple',
     hideScrollbar: true,
     height: 112
@@ -9589,34 +9592,41 @@ function Deck(deckNumberString, state) {
   this.lowPass.Q.value = 0;
   this.highPass = this.wavesurfer.backend.ac.createBiquadFilter();
   this.highPass.type = 'highpass';
-  this.filterArray = [this.lowShelf, this.midBand, this.highBand, this.lowPass, this.highPass]; //routing nodes
+  this.filterArray = [this.lowShelf, this.midBand, this.highBand, this.lowPass, this.highPass]; //routing nodes 
 
   this.wavesurfer.backend.setFilters(this.filterArray);
   this.audioCtx = this.wavesurfer.backend.getAudioContext();
   this.source = this.audioCtx.createBufferSource();
   this.wavesurfer.on('loading', function (e) {
-    document.getElementById("loading-txt".concat(deckNumberString)).innerText = e;
+    return _this.handleLoadFunc(e);
   });
   this.wavesurfer.on('ready', function (e) {
-    // this.loadingDiv.classList.add('invisible');
-    document.querySelector(".waveform-loading".concat(deckNumberString)).classList.add('invisible');
-    document.getElementById("loading-txt".concat(deckNumberString)).innerText = 'Loading';
+    return _this.handleReadyFunc(e);
+  });
+  this.wavesurfer.on('finish', function () {
+    return _this.handleFinishFunc();
   }); // Methods
 
   this.playFunc = function () {
-    var _this = this;
+    var _this2 = this;
 
     this.audioContext.resume().then(function () {
-      _this.wavesurfer.play();
+      if (_this2.readyToPlay) {
+        _this2.platterVinyl.classList.add('rotating');
+
+        _this2.wavesurfer.play();
+      }
     });
   };
 
   this.pauseFunc = function () {
     this.wavesurfer.pause();
+    this.platterVinyl.classList.remove('rotating');
   };
 
   this.stopFunc = function () {
     this.wavesurfer.stop();
+    this.platterVinyl.classList.remove('rotating');
 
     if (this.selectedZoomBool) {
       // this.wavesurfer.zoom(201);
@@ -9633,15 +9643,42 @@ function Deck(deckNumberString, state) {
     this.loadingDiv.classList.remove('invisible');
   };
 
-  this.loadTrackFunc = function () {
-    var _this2 = this;
+  this.handleLoadFunc = function (e) {
+    document.getElementById("loading-txt".concat(deckNumberString)).innerText = e;
 
+    if (this.readyToPlay = true) {
+      this.readyToPlay = false;
+    }
+  };
+
+  this.handleReadyFunc = function (e) {
+    // this.loadingDiv.classList.add('invisible');
+    document.querySelector(".waveform-loading".concat(deckNumberString)).classList.add('invisible');
+    document.getElementById("loading-txt".concat(deckNumberString)).innerText = 'Loading';
+    this.readyToPlay = true;
+  };
+
+  this.handleFinishFunc = function () {
+    this.platterVinyl.classList.remove('rotating');
+  };
+
+  this.loadTrackFunc = function () {
+    var _this3 = this;
+
+    // this.waversurfer.empty()
     this.loadedTrack = state.selectedTrack;
+
+    if (this.wavesurfer.isPlaying()) {
+      this.platterVinyl.classList.remove('rotating');
+    }
+
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
     this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
     var ctx = this.wavesurfer.backend.getAudioContext();
-    this.tempoSlider.value = 1000; // Fetch some audio file
+    this.tempoSlider.value = 1000;
+    this.platterVinyl.style.backgroundImage = "url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')";
+    this.vinylArt.style.backgroundImage = "url(".concat(this.loadedTrack.artwork_url, ")"); // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
     .then(function (response) {
@@ -9657,7 +9694,7 @@ function Deck(deckNumberString, state) {
         var bpm = (0, _bpmDetective.default)(buffer); // alert(`Detected BPM: ${ bpm }`);
         // this.detectedBPM = bpm;
 
-        _this2.updateBPM(bpm);
+        _this3.updateBPM(bpm);
       } catch (err) {
         console.error(err);
       }
@@ -9708,7 +9745,10 @@ function Deck(deckNumberString, state) {
   this.container = document.querySelector(".deck".concat(deckNumberString, "-container"));
   this.loadingDiv = document.querySelector(".waveform-loading".concat(deckNumberString));
   this.zoomModeSelect = document.getElementById("slide".concat(deckNumberString));
-  this.trackVolSlider = document.getElementById("deck".concat(deckNumberString, "vol")); //  event listeners
+  this.trackVolSlider = document.getElementById("deck".concat(deckNumberString, "vol"));
+  this.platterVinyl = document.querySelector(".platter".concat(deckNumberString));
+  this.vinylArt = document.querySelector(".disc-artwork".concat(deckNumberString));
+  console.log(this.vinylArt); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9955,7 +9995,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52998" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64543" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
