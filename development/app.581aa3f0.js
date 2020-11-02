@@ -9673,12 +9673,15 @@ function Deck(deckNumberString, state) {
     }
 
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
+    console.log(this.loadedTrack.user.username);
     this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
     var ctx = this.wavesurfer.backend.getAudioContext();
     this.tempoSlider.value = 1000;
     this.platterVinyl.style.backgroundImage = "url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')";
-    this.vinylArt.style.backgroundImage = "url(".concat(this.loadedTrack.artwork_url, ")"); // Fetch some audio file
+    this.vinylArt.style.backgroundImage = "url(".concat(this.loadedTrack.artwork_url, ")");
+    this.currentTrackTitle.innerText = this.loadedTrack.title;
+    this.currentTrackArtist.innerText = this.loadedTrack.user.username; // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
     .then(function (response) {
@@ -9748,7 +9751,10 @@ function Deck(deckNumberString, state) {
   this.trackVolSlider = document.getElementById("deck".concat(deckNumberString, "vol"));
   this.platterVinyl = document.querySelector(".platter".concat(deckNumberString));
   this.vinylArt = document.querySelector(".disc-artwork".concat(deckNumberString));
-  console.log(this.vinylArt); //  event listeners
+  this.currentTrackTitle = document.getElementById("title".concat(deckNumberString));
+  this.currentTrackArtist = document.getElementById("artist".concat(deckNumberString));
+  this.currentTrackGenre = document.getElementById("genre".concat(deckNumberString));
+  this.currentTrackDuration = document.getElementById("duration".concat(deckNumberString)); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9995,7 +10001,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51348" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55263" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

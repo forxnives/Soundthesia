@@ -207,6 +207,9 @@ function Deck (deckNumberString, state) {
         const mp3Link = `${this.loadedTrack.stream_url}?client_id=${this.SCKEY2}`
 
 
+        console.log(this.loadedTrack.user.username)
+
+
         this.loadingAnimateFunc()
 
         this.wavesurfer.load(mp3Link);
@@ -218,6 +221,11 @@ function Deck (deckNumberString, state) {
         this.platterVinyl.style.backgroundImage = `url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')`
 
         this.vinylArt.style.backgroundImage = `url(${this.loadedTrack.artwork_url})`
+
+        this.currentTrackTitle.innerText = this.loadedTrack.title;
+
+        this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+
 
 
                 // Fetch some audio file
@@ -318,7 +326,15 @@ function Deck (deckNumberString, state) {
 
     this.vinylArt = document.querySelector(`.disc-artwork${deckNumberString}`);
 
-    console.log(this.vinylArt);
+    this.currentTrackTitle = document.getElementById(`title${deckNumberString}`);
+
+    this.currentTrackArtist = document.getElementById(`artist${deckNumberString}`);
+
+    this.currentTrackGenre = document.getElementById(`genre${deckNumberString}`);
+
+    this.currentTrackDuration = document.getElementById(`duration${deckNumberString}`);
+
+
 
 
 
