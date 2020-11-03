@@ -149,33 +149,27 @@ header {
 
 
                         .title-underline {
-                            border-bottom:1px solid darkblue;
+                            border-bottom:1px solid black;
                             width: 66%;
+                            overflow:hidden;
+                            white-space:nowrap;
 
-                            h2 {
-                                position: relative;
-                                -webkit-animation: scroll 20s infinite linear;;
-                                -moz-animation: scroll 20s infinite linear;
-                                -o-animation: scroll 20s infinite linear;
-                            }
-                            
-                            // width: 90%;
-                            // height: 2px;
+
                         }
 
                         .artist-underline {
-                            border-bottom:1px solid darkblue;
+                            border-bottom:1px solid black;
                             width: 64%
                         }
 
                         .genre-underline {
-                            border-bottom:1px solid darkblue;
-                            width: 67%
+                            border-bottom:1px solid black;
+                            width: 66%
                         }
 
                         .duration-underline {
-                            border-bottom:1px solid darkblue;
-                            width: 76%
+                            border-bottom:1px solid black;
+                            width: 71%
                         }
                     }
 
@@ -807,49 +801,33 @@ header {
 
                         .title-underline {
 
-                            border-bottom:2px solid black;
+                            border-bottom:1px solid black;
                             width: 66%;
                             overflow:hidden;
                             white-space:nowrap;
 
-                            .scroll-container {
-                                position: relative;
-                                -webkit-animation: scroll 20s infinite linear;
-                                -moz-animation: scroll 20s infinite linear;
-                                -o-animation: scroll 20s infinite linear;
-                                animation: scroll 20s infinite linear;
+                            .scroll-container2 {
+
                             }
-
-                            // h2 {
-
-
-
-                            // }
-                            
-                            // width: 90%;
-                            // height: 2px;
                         }
 
                         .artist-underline {
-                            border-bottom:2px solid black;
+                            border-bottom:1px solid black;
                             width: 64%
                         }
 
                         .genre-underline {
-                            border-bottom:2px solid black;
-                            width: 67%
+                            border-bottom:1px solid black;
+                            width: 66%
                         }
 
                         .duration-underline {
-                            border-bottom:2px solid black;
-                            width: 76%
+                            border-bottom:1px solid black;
+                            width: 71%
                         }
                     }
-
-                
                 
                 }
-
 
 
                 .panel-platter {
@@ -1395,23 +1373,18 @@ header {
         font-weight: lighter;
     }
       
-
-
-
-
 }
-
 
 
 .rightbpm{
     right: 10px;
-    top: 17px;
+    top: 12px;
 }
 
 .leftbpm {
 
     left: 10px;
-    top: 17px;
+    top: 12px;
 }
 
 
@@ -1437,4 +1410,12 @@ header {
 @-webkit-keyframes scroll{
     0%   {left: 0;}
     100% {left: -100%;}
+}
+
+.scrolling {
+    position: relative;
+    -webkit-animation: scroll 20s infinite linear;
+    -moz-animation: scroll 20s infinite linear;
+    -o-animation: scroll 20s infinite linear;
+    animation: scroll 20s infinite linear;
 }

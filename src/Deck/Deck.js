@@ -4,6 +4,7 @@ import { FLStandardKnob } from '../../node_modules/precision-inputs/common/preci
 import KnobCreate from '../KnobCreate/KnobCreate';
 import WaveSurfer from 'wavesurfer.js';
 import detect from 'bpm-detective';
+import { millisecondConvert, scrollCheck } from '../utils';
 
 // import loadingSVG from '../trackloadingsvg.svg';
 
@@ -207,8 +208,7 @@ function Deck (deckNumberString, state) {
         const mp3Link = `${this.loadedTrack.stream_url}?client_id=${this.SCKEY2}`
 
 
-        console.log(this.currentTrackTitle.clientWidth)
-        console.log(this.currentTrackTitle.style.width)
+
 
 
         this.loadingAnimateFunc()
@@ -224,8 +224,20 @@ function Deck (deckNumberString, state) {
         this.vinylArt.style.backgroundImage = `url(${this.loadedTrack.artwork_url})`
 
         this.currentTrackTitle.innerText = this.loadedTrack.title;
+        this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+        this.currentTrackGenre.innerText = this.loadedTrack.genre;
+        this.currentTrackDuration.innerText = millisecondConvert(this.loadedTrack.duration);
 
-        // this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+
+
+        scrollCheck(this.currentTrackTitle);
+        scrollCheck(this.currentTrackArtist);
+        scrollCheck(this.currentTrackGenre);
+        scrollCheck(this.currentTrackDuration);
+
+        // if (this.currentTrackTitle.clientWidth < this.currentTrackTitle.scrollWidth) {
+        //     this.currentTrackTitle.classList.add('scrolling');
+        // }
 
 
 
@@ -292,11 +304,6 @@ function Deck (deckNumberString, state) {
 
     } 
 
-    this.handleScrollFunc = function (e) {
-
-        console.log('overflew')
-
-    }
 
 
     // instantiating knobs
@@ -341,9 +348,8 @@ function Deck (deckNumberString, state) {
 
     this.currentTrackDuration = document.getElementById(`duration${deckNumberString}`);
 
-    this.titleScroll = document.querySelector(`.scroll-container${deckNumberString}`);
+    // this.titleScroll = document.querySelector(`.scroll-container${deckNumberString}`);
 
-    console.log(this.titleScroll);
 
 
 
@@ -368,7 +374,6 @@ function Deck (deckNumberString, state) {
 
     this.trackVolSlider.addEventListener('input', this.trackVolFunc.bind(this), false);
 
-    this.titleScroll.addEventListener('overflow', this.handleScrollFunc.bind(this), false);
 
 
 
