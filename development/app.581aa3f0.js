@@ -9673,15 +9673,16 @@ function Deck(deckNumberString, state) {
     }
 
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
-    console.log(this.loadedTrack.user.username);
+    console.log(this.currentTrackTitle.clientWidth);
+    console.log(this.currentTrackTitle.style.width);
     this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
     var ctx = this.wavesurfer.backend.getAudioContext();
     this.tempoSlider.value = 1000;
     this.platterVinyl.style.backgroundImage = "url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')";
     this.vinylArt.style.backgroundImage = "url(".concat(this.loadedTrack.artwork_url, ")");
-    this.currentTrackTitle.innerText = this.loadedTrack.title;
-    this.currentTrackArtist.innerText = this.loadedTrack.user.username; // Fetch some audio file
+    this.currentTrackTitle.innerText = this.loadedTrack.title; // this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+    // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
     .then(function (response) {
@@ -9731,6 +9732,10 @@ function Deck(deckNumberString, state) {
 
   this.trackVolFunc = function (e) {
     this.trackVolume.gain.value = e.target.value;
+  };
+
+  this.handleScrollFunc = function (e) {
+    console.log('overflew');
   }; // instantiating knobs
 
 
@@ -9754,7 +9759,9 @@ function Deck(deckNumberString, state) {
   this.currentTrackTitle = document.getElementById("title".concat(deckNumberString));
   this.currentTrackArtist = document.getElementById("artist".concat(deckNumberString));
   this.currentTrackGenre = document.getElementById("genre".concat(deckNumberString));
-  this.currentTrackDuration = document.getElementById("duration".concat(deckNumberString)); //  event listeners
+  this.currentTrackDuration = document.getElementById("duration".concat(deckNumberString));
+  this.titleScroll = document.querySelector(".scroll-container".concat(deckNumberString));
+  console.log(this.titleScroll); //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9765,6 +9772,7 @@ function Deck(deckNumberString, state) {
   this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
   this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false);
   this.trackVolSlider.addEventListener('input', this.trackVolFunc.bind(this), false);
+  this.titleScroll.addEventListener('overflow', this.handleScrollFunc.bind(this), false);
 }
 
 var _default = Deck;
@@ -10001,7 +10009,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55263" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51027" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
