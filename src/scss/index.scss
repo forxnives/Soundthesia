@@ -150,7 +150,14 @@ header {
 
                         .title-underline {
                             border-bottom:1px solid darkblue;
-                            width: 66%
+                            width: 66%;
+
+                            h2 {
+                                position: relative;
+                                -webkit-animation: scroll 20s infinite linear;;
+                                -moz-animation: scroll 20s infinite linear;
+                                -o-animation: scroll 20s infinite linear;
+                            }
                             
                             // width: 90%;
                             // height: 2px;
