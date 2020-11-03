@@ -207,7 +207,8 @@ function Deck (deckNumberString, state) {
         const mp3Link = `${this.loadedTrack.stream_url}?client_id=${this.SCKEY2}`
 
 
-        console.log(this.loadedTrack.user.username)
+        console.log(this.currentTrackTitle.clientWidth)
+        console.log(this.currentTrackTitle.style.width)
 
 
         this.loadingAnimateFunc()
@@ -224,7 +225,7 @@ function Deck (deckNumberString, state) {
 
         this.currentTrackTitle.innerText = this.loadedTrack.title;
 
-        this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+        // this.currentTrackArtist.innerText = this.loadedTrack.user.username;
 
 
 
@@ -291,6 +292,12 @@ function Deck (deckNumberString, state) {
 
     } 
 
+    this.handleScrollFunc = function (e) {
+
+        console.log('overflew')
+
+    }
+
 
     // instantiating knobs
 
@@ -334,7 +341,9 @@ function Deck (deckNumberString, state) {
 
     this.currentTrackDuration = document.getElementById(`duration${deckNumberString}`);
 
+    this.titleScroll = document.querySelector(`.scroll-container${deckNumberString}`);
 
+    console.log(this.titleScroll);
 
 
 
@@ -358,6 +367,9 @@ function Deck (deckNumberString, state) {
     this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false);
 
     this.trackVolSlider.addEventListener('input', this.trackVolFunc.bind(this), false);
+
+    this.titleScroll.addEventListener('overflow', this.handleScrollFunc.bind(this), false);
+
 
 
 }
