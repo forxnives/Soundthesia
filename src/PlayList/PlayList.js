@@ -1,4 +1,4 @@
-
+import { millisecondConvert } from '../utils';
 
 function PlayList (deck, state) {
 
@@ -76,7 +76,7 @@ function PlayList (deck, state) {
         <td>${track.title}</td>
         <td>${track.user.username}</td>
         <td>${track.genre}</td>
-        <td>${this.millisecondConvert(track.duration)}</td>
+        <td>${millisecondConvert(track.duration)}</td>
         <td>${track.release_year}</td>
         
         `;
@@ -84,19 +84,6 @@ function PlayList (deck, state) {
         this.tableBodySelect.appendChild(tableRow);
 
     }
-
-
-
-
-
-    this.millisecondConvert = function (millis) {
-        var minutes = Math.floor(millis / 60000);
-        var seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-      }
-
-
-
 
 
 
@@ -133,15 +120,10 @@ function PlayList (deck, state) {
 
 
 
-
     this.clearAllFunc = function(tableBody){
 
         tableBody.innerHTML = '';
     }
-
-
-
-
 
 
     //  event listeners //

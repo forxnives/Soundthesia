@@ -9519,7 +9519,32 @@ function groupByTempo(sampleRate) {
 },{}],"../node_modules/bpm-detective/lib/index.js":[function(require,module,exports) {
 module.exports = require('./detect').default;
 
-},{"./detect":"../node_modules/bpm-detective/lib/detect.js"}],"../src/Deck/Deck.js":[function(require,module,exports) {
+},{"./detect":"../node_modules/bpm-detective/lib/detect.js"}],"../src/utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.scrollCheck = exports.millisecondConvert = void 0;
+
+var millisecondConvert = function millisecondConvert(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = (millis % 60000 / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+};
+
+exports.millisecondConvert = millisecondConvert;
+
+var scrollCheck = function scrollCheck(DOMElement) {
+  DOMElement.classList.remove('scrolling');
+
+  if (DOMElement.clientWidth < DOMElement.scrollWidth) {
+    DOMElement.classList.add('scrolling');
+  }
+};
+
+exports.scrollCheck = scrollCheck;
+},{}],"../src/Deck/Deck.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9538,6 +9563,8 @@ var _KnobCreate = _interopRequireDefault(require("../KnobCreate/KnobCreate"));
 var _wavesurfer = _interopRequireDefault(require("wavesurfer.js"));
 
 var _bpmDetective = _interopRequireDefault(require("bpm-detective"));
+
+var _utils = require("../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9673,15 +9700,22 @@ function Deck(deckNumberString, state) {
     }
 
     var mp3Link = "".concat(this.loadedTrack.stream_url, "?client_id=").concat(this.SCKEY2);
-    console.log(this.currentTrackTitle.clientWidth);
-    console.log(this.currentTrackTitle.style.width);
     this.loadingAnimateFunc();
     this.wavesurfer.load(mp3Link);
     var ctx = this.wavesurfer.backend.getAudioContext();
     this.tempoSlider.value = 1000;
     this.platterVinyl.style.backgroundImage = "url('https://pngimg.com/uploads/vinyl/vinyl_PNG21.png')";
     this.vinylArt.style.backgroundImage = "url(".concat(this.loadedTrack.artwork_url, ")");
-    this.currentTrackTitle.innerText = this.loadedTrack.title; // this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+    this.currentTrackTitle.innerText = this.loadedTrack.title;
+    this.currentTrackArtist.innerText = this.loadedTrack.user.username;
+    this.currentTrackGenre.innerText = this.loadedTrack.genre;
+    this.currentTrackDuration.innerText = (0, _utils.millisecondConvert)(this.loadedTrack.duration);
+    (0, _utils.scrollCheck)(this.currentTrackTitle);
+    (0, _utils.scrollCheck)(this.currentTrackArtist);
+    (0, _utils.scrollCheck)(this.currentTrackGenre);
+    (0, _utils.scrollCheck)(this.currentTrackDuration); // if (this.currentTrackTitle.clientWidth < this.currentTrackTitle.scrollWidth) {
+    //     this.currentTrackTitle.classList.add('scrolling');
+    // }
     // Fetch some audio file
 
     fetch(mp3Link) // Get response as ArrayBuffer
@@ -9732,10 +9766,6 @@ function Deck(deckNumberString, state) {
 
   this.trackVolFunc = function (e) {
     this.trackVolume.gain.value = e.target.value;
-  };
-
-  this.handleScrollFunc = function (e) {
-    console.log('overflew');
   }; // instantiating knobs
 
 
@@ -9759,9 +9789,8 @@ function Deck(deckNumberString, state) {
   this.currentTrackTitle = document.getElementById("title".concat(deckNumberString));
   this.currentTrackArtist = document.getElementById("artist".concat(deckNumberString));
   this.currentTrackGenre = document.getElementById("genre".concat(deckNumberString));
-  this.currentTrackDuration = document.getElementById("duration".concat(deckNumberString));
-  this.titleScroll = document.querySelector(".scroll-container".concat(deckNumberString));
-  console.log(this.titleScroll); //  event listeners
+  this.currentTrackDuration = document.getElementById("duration".concat(deckNumberString)); // this.titleScroll = document.querySelector(`.scroll-container${deckNumberString}`);
+  //  event listeners
 
   this.playBtn.addEventListener('click', this.playFunc.bind(this), false);
   this.pauseBtn.addEventListener('click', this.pauseFunc.bind(this), false);
@@ -9772,18 +9801,19 @@ function Deck(deckNumberString, state) {
   this.container.addEventListener('drop', this.onDropFunc.bind(this), false);
   this.zoomModeSelect.addEventListener('click', this.zoomModeFunc.bind(this), false);
   this.trackVolSlider.addEventListener('input', this.trackVolFunc.bind(this), false);
-  this.titleScroll.addEventListener('overflow', this.handleScrollFunc.bind(this), false);
 }
 
 var _default = Deck;
 exports.default = _default;
-},{"@babel/runtime-corejs2/core-js/promise":"../node_modules/@babel/runtime-corejs2/core-js/promise.js","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","../../node_modules/precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js","../KnobCreate/KnobCreate":"../src/KnobCreate/KnobCreate.js","wavesurfer.js":"../node_modules/wavesurfer.js/dist/wavesurfer.js","bpm-detective":"../node_modules/bpm-detective/lib/index.js"}],"../src/PlayList/PlayList.js":[function(require,module,exports) {
+},{"@babel/runtime-corejs2/core-js/promise":"../node_modules/@babel/runtime-corejs2/core-js/promise.js","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","../../node_modules/precision-inputs/common/precision-inputs.fl-controls":"../node_modules/precision-inputs/common/precision-inputs.fl-controls.js","../KnobCreate/KnobCreate":"../src/KnobCreate/KnobCreate.js","wavesurfer.js":"../node_modules/wavesurfer.js/dist/wavesurfer.js","bpm-detective":"../node_modules/bpm-detective/lib/index.js","../utils":"../src/utils.js"}],"../src/PlayList/PlayList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _utils = require("../utils");
 
 function PlayList(deck, state) {
   var _this = this;
@@ -9819,14 +9849,8 @@ function PlayList(deck, state) {
     tableRow.addEventListener('click', function (e) {
       self.selectTrFunc(e, track);
     });
-    tableRow.innerHTML = "\n        \n        <td> <img style=\"max-height: 40px;\" src=".concat(track.artwork_url, "></img> </td>\n        <td>").concat(track.title, "</td>\n        <td>").concat(track.user.username, "</td>\n        <td>").concat(track.genre, "</td>\n        <td>").concat(this.millisecondConvert(track.duration), "</td>\n        <td>").concat(track.release_year, "</td>\n        \n        ");
+    tableRow.innerHTML = "\n        \n        <td> <img style=\"max-height: 40px;\" src=".concat(track.artwork_url, "></img> </td>\n        <td>").concat(track.title, "</td>\n        <td>").concat(track.user.username, "</td>\n        <td>").concat(track.genre, "</td>\n        <td>").concat((0, _utils.millisecondConvert)(track.duration), "</td>\n        <td>").concat(track.release_year, "</td>\n        \n        ");
     this.tableBodySelect.appendChild(tableRow);
-  };
-
-  this.millisecondConvert = function (millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = (millis % 60000 / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
   };
 
   this.selectTrFunc = function (evt, track) {
@@ -9864,7 +9888,7 @@ function PlayList(deck, state) {
 
 var _default = PlayList;
 exports.default = _default;
-},{}],"../src/State/State.js":[function(require,module,exports) {
+},{"../utils":"../src/utils.js"}],"../src/State/State.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10009,7 +10033,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "51355" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52659" + '/');
+>>>>>>> 6973ac062f4af90a8c96250c1d23dc6b53d259fc
 
   ws.onmessage = function (event) {
     checkedAssets = {};
