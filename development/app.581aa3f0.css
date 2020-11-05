@@ -248,6 +248,26 @@ body {
   background-color: green !important;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #26292b;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 .app-container {
   display: grid;
   grid-template-rows: 4vh 54vh 42vh;
@@ -344,21 +364,21 @@ header span {
   margin: 0px 10px;
 }
 .decks-container .deck1-panel-info .panel-details .track-detail .title-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 66%;
   overflow: hidden;
   white-space: nowrap;
 }
 .decks-container .deck1-panel-info .panel-details .track-detail .artist-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 64%;
 }
 .decks-container .deck1-panel-info .panel-details .track-detail .genre-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 66%;
 }
 .decks-container .deck1-panel-info .panel-details .track-detail .duration-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 71%;
 }
 .decks-container .deck1-panel-info .panel-platter {
@@ -742,21 +762,21 @@ header span {
   margin: 0px 10px;
 }
 .decks-container .deck2-panel-info .panel-details .track-detail .title-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 66%;
   overflow: hidden;
   white-space: nowrap;
 }
 .decks-container .deck2-panel-info .panel-details .track-detail .artist-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 64%;
 }
 .decks-container .deck2-panel-info .panel-details .track-detail .genre-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 66%;
 }
 .decks-container .deck2-panel-info .panel-details .track-detail .duration-underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 71%;
 }
 .decks-container .deck2-panel-info .panel-platter {

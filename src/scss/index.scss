@@ -1,4 +1,6 @@
 $page-width : 97%;
+$color-underline : rgba(black, .2);
+
 
 
 
@@ -149,7 +151,7 @@ header {
 
 
                         .title-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 66%;
                             overflow:hidden;
                             white-space:nowrap;
@@ -158,17 +160,17 @@ header {
                         }
 
                         .artist-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 64%
                         }
 
                         .genre-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 66%
                         }
 
                         .duration-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 71%
                         }
                     }
@@ -801,7 +803,7 @@ header {
 
                         .title-underline {
 
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 66%;
                             overflow:hidden;
                             white-space:nowrap;
@@ -812,17 +814,17 @@ header {
                         }
 
                         .artist-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 64%
                         }
 
                         .genre-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 66%
                         }
 
                         .duration-underline {
-                            border-bottom:1px solid black;
+                            border-bottom:1px solid $color-underline;
                             width: 71%
                         }
                     }

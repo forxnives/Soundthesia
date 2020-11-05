@@ -25,13 +25,26 @@ function PlayList (deck, state) {
 
     //  Methods //
 
+
+
     this.addTrackFunc = function(url) {
 
         const self = this;
 
-        deck.scPlayer.resolve(url, function(track){
+        deck.scPlayer.resolve(url, function(scObj){
 
-            self.trCreateFunc(track)
+
+            if (scObj.kind === 'playlist' ){
+
+                scObj.tracks.forEach((trk)=>{
+                    self.trCreateFunc(trk)
+                });
+
+
+            }else {
+
+                self.trCreateFunc(scObj)
+            }
 
             } )
 
@@ -129,8 +142,8 @@ function PlayList (deck, state) {
     //  event listeners //
 
 
+    // this.addBtn.addEventListener('click', () => this.addTrackFunc(this.searchInput.value));
     this.addBtn.addEventListener('click', () => this.addTrackFunc(this.searchInput.value));
-
     this.clearAllBtn.addEventListener('click', () => this.clearAllFunc(this.tableBodySelect));
 
 
