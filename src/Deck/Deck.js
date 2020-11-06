@@ -209,7 +209,7 @@ function Deck (deckNumberString, state) {
 
 
 
-
+        //TEST
 
         this.loadingAnimateFunc()
 
