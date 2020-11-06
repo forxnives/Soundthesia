@@ -10011,7 +10011,7 @@ function init() {
 }
 
 ;
-console.log('it works mofo');
+console.log('Thanks for checking out Soundthesia! Created by Marc Robotham');
 },{"./scss/index.scss":"../src/scss/index.scss","soundcloud-audio":"../node_modules/soundcloud-audio/index.js","./KnobCreate/KnobCreate.js":"../src/KnobCreate/KnobCreate.js","./Deck/Deck.js":"../src/Deck/Deck.js","./PlayList/PlayList.js":"../src/PlayList/PlayList.js","./State/State.js":"../src/State/State.js","wavesurfer.js":"../node_modules/wavesurfer.js/dist/wavesurfer.js","./CrossFader/CrossFader":"../src/CrossFader/CrossFader.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -10040,7 +10040,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51132" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65302" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

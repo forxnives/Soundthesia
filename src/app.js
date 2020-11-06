@@ -48,4 +48,4 @@ function init(){
 
 
 
-console.log('it works mofo');
+console.log('Thanks for checking out Soundthesia! Created by Marc Robotham');

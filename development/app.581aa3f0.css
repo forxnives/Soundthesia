@@ -416,14 +416,13 @@ header span {
   z-index: 3;
 }
 .decks-container .deck1-panel-transport .button {
-  padding: 30px;
   margin: 0 5px;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.6);
   text-shadow: -1px 1px 0px rgba(0, 128, 0, 0.14);
   text-align: center;
   font-size: 12px;
-  padding: 20px;
+  padding: 13px;
   border-radius: 3px;
   display: inline-block;
   background-image: linear-gradient(#393F45, #52585E);
@@ -434,8 +433,9 @@ header span {
 .decks-container .deck1-panel-transport .button:active {
   box-shadow: 0 1px 5px rgba(255, 255, 255, 0.08) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -2px 2px 2px rgba(0, 0, 0, 0.25), 0 10px 100px rgba(0, 0, 0, 0.2) inset;
 }
-.decks-container .deck1-panel-transport .button svg {
-  fill: #FFA830;
+.decks-container .deck1-panel-transport .button span {
+  color: #FFA830;
+  font-size: 3.5rem;
 }
 .decks-container .deck1-eq {
   position: absolute;
@@ -815,14 +815,13 @@ header span {
   margin-right: 4vw;
 }
 .decks-container .deck2-panel-transport .button {
-  padding: 30px;
   margin: 0 5px;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.6);
   text-shadow: -1px 1px 0px rgba(0, 128, 0, 0.14);
   text-align: center;
   font-size: 12px;
-  padding: 20px;
+  padding: 13px;
   border-radius: 3px;
   display: inline-block;
   background-image: linear-gradient(#393F45, #52585E);
@@ -833,8 +832,9 @@ header span {
 .decks-container .deck2-panel-transport .button:active {
   box-shadow: 0 1px 5px rgba(255, 255, 255, 0.08) inset, 0 -20px 100px rgba(0, 0, 0, 0.25) inset, -2px 2px 2px rgba(0, 0, 0, 0.25), 0 10px 100px rgba(0, 0, 0, 0.2) inset;
 }
-.decks-container .deck2-panel-transport .button svg {
-  fill: #FFA830;
+.decks-container .deck2-panel-transport .button span {
+  color: #FFA830;
+  font-size: 3.5rem;
 }
 .decks-container .deck2-eq {
   position: absolute;
